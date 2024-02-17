@@ -1,43 +1,18 @@
-# obsidian-svelte-starter
+# Obsidian Counters
 
-A starter template for creating an Obsidian plugin with SvelteJS.
+## Usage
 
-# Features
+`clock 2/6`
 
-This project comes preconfigured with [Typescript](https://www.typescriptlang.org/), [vite](https://vitejs.dev), and
-[Rollup.js](https://rollupjs.org).
+Creates a pie-chart-style clock with 6 segments, 2 of them filled. Click to
+fill another segment; right-click to clear a segment. Once the clock is filled,
+click again to clear it out.
 
-# Getting Started
+`counter`
 
-Click "use this template" to create your own fork of this repo. Make sure to reference the official sample plugin for
-information about how to get started with the Obsidian API and how to submit your plugin to the Community Plugin
-Gallery.
+Creates a simple counter, with increment/decrement buttons and basic arithmetic
+support.
 
-```bash
-# for local development
-npm install
-npm run dev
-// Or yarn dev
+`stopwatch`
 
-# for a production bundle
-npm install
-npm run build
-// Or yarn build
-
-# change version
-npm bumpversion
-// Or yarn bumpversion
-```
-
-# Stats
-
-The production output of this sample plugin is ~10 KB.
-
-```
-./styles.css   0.44 KiB / gzip: 0.19 KiB
-./main.js      12.63 KiB / gzip: 3.70 KiB
-```
-
-## API Documentation
-
-See https://github.com/obsidianmd/obsidian-api
+Creates a stopwatch with start/pause/reset buttons.

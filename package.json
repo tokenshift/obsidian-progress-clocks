@@ -1,7 +1,7 @@
 {
-    "name": "obsidian-svelte-starter",
-    "version": "1.0.3",
-    "description": "A plugin development template for devs who want to use svelte in Obsidian.",
+    "name": "obsidian-counters",
+    "version": "0.0.1",
+    "description": "Counters, clocks and stopwatches for https://obsidian.md/.",
     "main": "main.js",
     "scripts": {
         "lint": "eslint . --ext .ts",
