@@ -16,6 +16,14 @@
   stroke-width: 4;
 }
 
+.counters-clock svg circle[data-filled="false"] {
+  fill: #fff;
+}
+
+.counters-clock svg circle[data-filled="true"] {
+  fill: #000;
+}
+
 .counters-clock svg path {
   fill: #fff;
   stroke: #000;
@@ -68,6 +76,11 @@
   position: relative;
 }
 
+.counters-panel__add-section {
+  display: inline-block;
+  margin-top: 0.25em;
+}
+
 .counters-section {
   border: 1px solid #999;
   border-radius: 0.5em;
@@ -90,11 +103,6 @@
   top: 0.5em;
   right: 0.5em;
   font-size: 50%;
-  text-decoration: none;
-}
-
-.counters-section__remove:hover {
-  text-decoration: underline;
 }
 
 .counters-section__slot > * {
@@ -108,12 +116,8 @@
   margin-top: 0.5em;
 }
 
-.counters-section__add-child a {
-  text-decoration: none;
-}
-
-.counters-section__add-child a:hover {
-  text-decoration: underline;
+.counters-section__add-child input {
+  width: 2em;
 }
 
 .counters-timer {

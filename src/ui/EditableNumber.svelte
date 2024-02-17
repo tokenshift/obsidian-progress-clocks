@@ -1,13 +1,21 @@
-<script lang="ts">
-export let value: number = 0
-let newValue = value.toString()
-
-enum EditMode {
+<script lang="ts" context="module">
+export enum EditMode {
   Read,
   Edit
 }
+</script>
 
-export let mode = EditMode.Read
+<script lang="ts">
+import { createEventDispatcher } from 'svelte'
+
+export let value: number = 0
+
+let newValue = value.toString()
+
+export let mode: EditMode = EditMode.Read
+
+const dispatch = createEventDispatcher()
+$: dispatch('modeChanged', { mode })
 
 function startEditing() {
   if (!newValue.startsWith('+') && !newValue.startsWith('-')) {
