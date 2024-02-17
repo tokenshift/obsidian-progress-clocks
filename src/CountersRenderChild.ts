@@ -21,9 +21,7 @@ export default class CountersRenderChild extends MarkdownRenderChild {
 
   async onload () {
     const data = await this.plugin.loadData()
-    const state = data.state || { sections: [] }
-
-    console.log(state)
+    const state = data?.state || { sections: [] }
 
     const panel = new Panel({
       target: this.element,
@@ -32,6 +30,6 @@ export default class CountersRenderChild extends MarkdownRenderChild {
 
     panel.$on('stateUpdated', debounce(({ detail: { state } }) => {
       this.plugin.saveData({ state })
-    }, DEBOUNCE_SAVE_STATE_TIME, false))
+    }, DEBOUNCE_SAVE_STATE_TIME, true))
   }
 }

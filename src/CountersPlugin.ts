@@ -10,7 +10,6 @@ export default class CountersPlugin extends Plugin {
 
   async handleCountersCodeBlock (source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) {
     try {
-
       const child = new CountersRenderChild({ plugin: this, element: el })
       ctx.addChild(child)
     } catch (err) {
