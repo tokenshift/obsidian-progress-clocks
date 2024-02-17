@@ -1,12 +1,3 @@
-<script type="ts" context="module">
-export type ClockParams = {
-  type: 'clock'
-  name?: string
-  segments?: number
-  filled?: number
-}
-</script>
-
 <script type="ts">
 import EditableText from './EditableText.svelte'
 

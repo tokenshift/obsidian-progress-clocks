@@ -1,30 +1,43 @@
-<script lang="ts" context="module">
-export type TimerParams = {
-  type: 'timer'
-  name?: string
-  showMilliseconds?: boolean
-  elapsed?: number
-}
-</script>
-
 <script lang="ts">
-import moment from 'moment'
 import { onDestroy, onMount } from 'svelte'
 
 const locale = Intl.NumberFormat().resolvedOptions().locale
 
-export let showMilliseconds = false
+export let name: string = 'Clock'
+export let startMillis: number = new Date().getTime()
+export let offsetMillis: number = 0
+export let showMillis: boolean = false
+export let isRunning: boolean = true
 
-let startTime = moment()
-let offset = 0
+const TICK_INTERVAL_MS = 10
 
-export let elapsed = 0
+let elapsed = 0
 
-$: seconds = showMilliseconds ? (elapsed / 1000) % 60 : Math.floor(elapsed / 1000) % 60
+function tick() {
+  elapsed = new Date().getTime() - startMillis + offsetMillis
+}
+
+onMount(() => {
+  if (isRunning) {
+    tick()
+    start()
+  } else {
+    elapsed = offsetMillis
+  }
+})
+
+onDestroy(() => {
+  if (tickInterval) {
+    clearInterval(tickInterval)
+    tickInterval = null
+  }
+})
+
+$: seconds = showMillis ? (elapsed / 1000) % 60 : Math.floor(elapsed / 1000) % 60
 $: secondsFormatted = Intl.NumberFormat(locale, {
   style: 'decimal',
   minimumIntegerDigits: 2,
-  minimumFractionDigits: showMilliseconds ? 3 : 0
+  minimumFractionDigits: showMillis ? 3 : 0
 }).format(seconds)
 
 $: minutes = Math.floor(elapsed / 1000 / 60) % 60
@@ -39,40 +52,43 @@ $: hoursFormatted = Intl.NumberFormat(locale, {
   minimumIntegerDigits: 2
 }).format(hours)
 
-let interval: NodeJS.Timer | null = null
-$: isRunning = interval !== null
-
-function update() {
-  elapsed = moment().diff(startTime) + offset
-}
+let tickInterval: NodeJS.Timer | null = null
 
 export function start() {
-  stop()
-  offset = elapsed
-  startTime = moment()
-  interval = setInterval(update, 10)
+  if (tickInterval) {
+    clearInterval(tickInterval)
+    tickInterval = null
+  }
+
+  offsetMillis = elapsed
+  startMillis = new Date().getTime()
+  tickInterval = setInterval(tick, TICK_INTERVAL_MS)
+  isRunning = true
 }
 
 export function stop() {
-  if (interval) {
-    clearInterval(interval)
-    interval = null
+  if (tickInterval) {
+    clearInterval(tickInterval)
+    tickInterval = null
   }
+
+  offsetMillis = elapsed
+  isRunning = false
 }
 
 export function reset() {
-  startTime = moment()
-  offset = 0
+  startMillis = new Date().getTime()
+  offsetMillis = 0
   elapsed = 0
 }
 
 export function togglePrecision() {
-  showMilliseconds = !showMilliseconds
+  showMillis = !showMillis
 }
 
-onMount(start)
+// onMount(start)
 
-onDestroy(stop)
+// onDestroy(stop)
 </script>
 
 <div class="counters-timer">

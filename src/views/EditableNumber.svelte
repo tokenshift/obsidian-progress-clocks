@@ -9,7 +9,11 @@ enum EditMode {
 
 export let mode = EditMode.Read
 
-function startEditing(el: HTMLElement) {
+function startEditing() {
+  if (!newValue.startsWith('+') && !newValue.startsWith('-')) {
+    newValue = value.toString()
+  }
+
   mode = EditMode.Edit
 }
 
@@ -29,6 +33,8 @@ function onKeyDown(e: KeyboardEvent) {
       value = Number(newValue)
     }
 
+    mode = EditMode.Read
+  } else if (e.key === 'Escape') {
     mode = EditMode.Read
   }
 }

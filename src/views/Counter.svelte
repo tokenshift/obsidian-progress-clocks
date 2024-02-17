@@ -1,17 +1,7 @@
-<script lang="ts" context="module">
+<script lang="ts">
 import EditableNumber from './EditableNumber.svelte'
 
-export type CounterParams = {
-  type: 'counter'
-  name?: string
-  value?: number
-  step?: number
-  min?: number | null
-  max?: number | null
-}
-</script>
-
-<script lang="ts">
+export let name: string = 'Counter'
 export let value = 0
 export let step = 1
 
@@ -39,6 +29,6 @@ $: value = min === null ? value - step : Math.max(min, value - step)
   </div>
   <div class="counters-counter__buttons">
     <button class="counters-counter__button-increment" on:click={() => (value += 1)} disabled={isMax}>+</button>
-    <button class="counters-counter__button-decrement" on:click={() => (value -= 1)}>-</button>
+    <button class="counters-counter__button-decrement" on:click={() => (value -= 1)} disabled={isMin}>-</button>
   </div>
 </div>

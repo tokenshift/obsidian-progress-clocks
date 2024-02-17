@@ -1,4 +1,5 @@
-import { MarkdownPostProcessorContext, Plugin } from 'obsidian'
+import type { MarkdownPostProcessorContext } from 'obsidian'
+import { Plugin } from 'obsidian'
 
 import CountersRenderChild from './CountersRenderChild'
 
@@ -10,7 +11,7 @@ export default class CountersPlugin extends Plugin {
   async handleCountersCodeBlock (source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) {
     try {
 
-      const child = new CountersRenderChild({ element: el })
+      const child = new CountersRenderChild({ plugin: this, element: el })
       ctx.addChild(child)
     } catch (err) {
       const pre = document.createElement('pre')
