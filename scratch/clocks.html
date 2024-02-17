@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Clocks Test Page</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  </head>
+  <body>
+    <h1>Test Page for Clocks SVG</h1>
+    <section>
+      <h2>Hard-Coded Examples</h2>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewbox="0 0 100 100"
+        width="10em"
+        height="10em">
+        <path fill="black" d="
+          M 50 0
+          A 50 50 0 0 1 100 50
+          L 50 50
+          Z
+          " />
+      </svg>
+
+      <br>
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewbox="0 0 100 100"
+        width="10em"
+        height="10em">
+        <path fill="black" d="
+          M 100 50
+          A 50 50 0 0 1 50 100
+          L 50 50
+          Z
+          " />
+      </svg>
+
+      <br>
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewbox="0 0 100 100"
+        width="10em"
+        height="10em">
+        <path fill="black" d="
+          M 50 100
+          A 50 50 0 0 1 0 50
+          L 50 50
+          Z
+          " />
+      </svg>
+
+      <br>
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewbox="0 0 100 100"
+        width="10em"
+        height="10em">
+        <path fill="black" d="
+          M 0 50
+          A 50 50 0 0 1 50 0
+          L 50 50
+          Z
+          " />
+      </svg>
+    </section>
+
+    <section>
+      <h2>Dynamic Example</h2>
+      <input type="number" id="segmentsInput" value="6" onchange="updateDynamicSvg()"><br>
+      <input type="number" id="filledInput" value="2" onchange="updateDynamicSvg()"><br>
+      <button onclick="updateDynamicSvg()">Update</button><br>
+      <div id="raphaelTarget"></div>
+      <!-- <svg
+      id="dynamic-target-svg"
+        xmlns="http://www.w3.org/2000/svg"
+        viewbox="0 0 100 100"
+        width="10em"
+        height="10em">
+        <path fill="rgb(255,0,0)" d="M 50 0 A 50 50 0 0 1 100 50 L 50 50 Z" />
+        <path fill="rgb(0,255,0)" d="M 100 50 A 50 50 0 0 1 50 100 L 50 50 Z" />
+        <path fill="rgb(0,0,255)" d="M 50 100 A 50 50 0 0 1 0 50 L 50 50 Z" />
+        <path fill="rgb(255,255,0)" d="M 0 50 A 50 50 0 0 1 50 0 L 50 50 Z" /> -->
+    </section>
+
+<script type="text/javascript">
+
+Raphael.fn.clock = function (segments, filled) {
+  const radius = 50
+
+  for (let i = 0; i < segments; ++i) {
+    const x1 = radius*Math.sin(2*Math.PI*i / segments) + radius
+    const x2 = radius*Math.sin(2*Math.PI*(i+1) / segments) + radius
+
+    const y1 = -radius*Math.cos(2*Math.PI*i / segments) + radius
+    const y2 = -radius*Math.cos(2*Math.PI*(i+1) / segments) + radius
+
+    const path = this.path([
+      'M', radius, radius,
+      'L', x1, y1,
+      'A', radius, radius, 0, 0, 1, x2, y2,
+      'Z'])
+
+    if (i < filled) {
+      path.attr({ fill: 'black' })
+    } else {
+      path.attr({ stroke: 'black' })
+    }
+  }
+}
+
+function updateDynamicSvg() {
+  const segmentsInput = document.getElementById('segmentsInput')
+  let segments = Number(segmentsInput.value)
+
+  const filledInput = document.getElementById('filledInput')
+  let filled = Number(filledInput.value)
+
+  segments = Math.max(2, segments)
+  filled = Math.max(0, filled)
+  filled = Math.min(segments, filled)
+
+  segmentsInput.value = segments
+  filledInput.value = filled
+
+  console.log(`${filled} / ${segments}`)
+
+  const target = document.getElementById('raphaelTarget')
+  target.innerHTML = ''
+  Raphael(target).clock(segments, filled)
+}
+
+setTimeout(updateDynamicSvg, 0)
+</script>
+  </body>
+</html>
