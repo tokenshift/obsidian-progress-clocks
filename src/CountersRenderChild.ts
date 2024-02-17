@@ -1,6 +1,6 @@
 import { MarkdownRenderChild, debounce } from 'obsidian'
 
-import Panel from './views/Panel.svelte'
+import Panel from './ui/Panel.svelte'
 import type CountersPlugin from './CountersPlugin'
 
 const DEBOUNCE_SAVE_STATE_TIME = 1000
@@ -25,7 +25,7 @@ export default class CountersRenderChild extends MarkdownRenderChild {
 
     const panel = new Panel({
       target: this.element,
-      props: { state }
+      props: { state, version: this.plugin.manifest.version }
     })
 
     panel.$on('stateUpdated', debounce(({ detail: { state } }) => {

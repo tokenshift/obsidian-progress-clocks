@@ -7,6 +7,7 @@ import Section from './Section.svelte'
 const dispatch = createEventDispatcher()
 
 export let state = new State()
+export let version: string
 
 $: dispatch('stateUpdated', { state })
 
@@ -26,8 +27,14 @@ function removeSection(i: number) {
     <Section bind:name={section.name} bind:children={section.children} on:removeSection={() => removeSection(i)} />
   {/each}
   <a href="javascript:;" class="counters-panel__add-section" on:click={addSection}>Add Section</a>
+  {#if version}
+  <span class="counters-version">Counters v{version}</span>
+  {/if}
 </div>
 
+{#if state.debug}
 <pre class="counters-debug">
 {JSON.stringify(state, null, 2)}
 </pre>
+{/if}
+

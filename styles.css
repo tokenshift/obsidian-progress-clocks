@@ -64,6 +64,10 @@
   width: 100%;
 }
 
+.counters-panel {
+  position: relative;
+}
+
 .counters-section {
   border: 1px solid #999;
   border-radius: 0.5em;
@@ -119,4 +123,14 @@
 
 .counters-timer__elapsed {
   font-family: monospace;
+}
+
+.counters-version {
+  font-weight: 100;
+  font-size: 75%;
+  text-align: right;
+  opacity: 0.75;
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
