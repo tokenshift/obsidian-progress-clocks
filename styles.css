@@ -1,1 +1,116 @@
-.H1.svelte-1thof0h{margin-left:auto;margin-right:auto;text-align:center}.H4.svelte-1thof0h{margin-left:auto;margin-right:auto;text-align:center}.Dice-Roller-Result.svelte-1thof0h{margin-left:auto;margin-right:auto;text-align:center}.Dice-Roller-Container.svelte-1thof0h{display:flex;flex-direction:row;justify-content:space-between}.Dice-Roller-Button.svelte-1thof0h{margin-left:4px}.Dice-Roller-Button.svelte-1thof0h:hover{border:black 1px solid}
+.counters-clock {
+  display: inline-block;
+  text-align: center;
+}
+
+.counters-clock svg {
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5));
+  width: 2.5em;
+  height: 2.5em;
+  vertical-align: middle;
+}
+
+.counters-clock svg circle {
+  fill: none;
+  stroke: #000;
+  stroke-width: 4;
+}
+
+.counters-clock svg path {
+  fill: #fff;
+  stroke: #000;
+  stroke-width: 2;
+}
+
+.counters-clock svg path[data-filled="true"] {
+  fill: #000;
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+.counters-clock__name {
+  font-size: 50%;
+}
+
+.counters-counter {
+  display: inline-block;
+  text-align: center;
+}
+
+.counters-counter__buttons button[disabled] {
+  color: #999;
+}
+
+.counters-counter__button-increment {
+  color: #0d0;
+}
+
+.counters-counter__button-decrement {
+  color: #d00;
+}
+
+.counters-counter__value {
+  font-family: monospace;
+}
+
+.counters-counter__value input {
+  text-align: center;
+  width: 6em;
+}
+
+.counters-section {
+  border: 1px solid #999;
+  border-radius: 0.5em;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  padding: 0.25em 0.5em;
+  position: relative
+}
+
+.counters-section + .counters-section {
+  margin-top: 1em;
+}
+
+.counters-section__name {
+  font-size: 75%;
+  font-weight: lighter;
+}
+
+.counters-section__remove {
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+  font-size: 50%;
+  text-decoration: none;
+}
+
+.counters-section__remove:hover {
+  text-decoration: underline;
+}
+
+.counters-section__slot > * {
+  margin-right: 0.5em;
+  margin-top: 0.5em;
+  vertical-align: middle;
+}
+
+.counters-section__add-child {
+  font-size: 75%;
+  margin-top: 0.5em;
+}
+
+.counters-section__add-child a {
+  text-decoration: none;
+}
+
+.counters-section__add-child a:hover {
+  text-decoration: underline;
+}
+
+.counters-timer {
+  display: inline-block;
+  text-align: center;
+}
+
+.counters-timer__elapsed {
+  font-family: monospace;
+}

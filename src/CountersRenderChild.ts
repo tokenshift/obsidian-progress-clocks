@@ -1,6 +1,6 @@
 import { MarkdownRenderChild } from 'obsidian'
 
-import Counters from './views/Counters.svelte'
+import Panel from './views/Panel.svelte'
 
 export default class CountersRenderChild extends MarkdownRenderChild {
   element: HTMLElement
@@ -12,7 +12,7 @@ export default class CountersRenderChild extends MarkdownRenderChild {
   }
 
   async onload () {
-    new Counters({
+    new Panel({
       target: this.element
     })
   }
