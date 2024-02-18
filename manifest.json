@@ -1,10 +1,10 @@
 {
-	"id": "counters",
-	"name": "Counters",
+	"id": "progress-clocks",
+	"name": "progress-clocks",
 	"version": "0.1.0",
 	"minAppVersion": "0.12.0",
-	"description": "Counters, clocks and stopwatches for Obsidian.",
+	"description": "Progress clocks and other useful widgets for Obsidian.",
 	"author": "Nathan Clark",
-	"authorUrl": "https://github.com/tokenshift/obsidian-counters",
+	"authorUrl": "https://github.com/tokenshift/obsidian-progress-clocks",
 	"isDesktopOnly": false
 }
