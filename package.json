@@ -1,7 +1,7 @@
 {
-  "name": "obsidian-counters",
+  "name": "obsidian-progress-clocks",
   "version": "0.1.0",
-  "description": "Counters, clocks and stopwatches for https://obsidian.md/.",
+  "description": "Progress clocks and other useful widgets for https://obsidian.md/.",
   "main": "main.js",
   "scripts": {
     "lint": "eslint . --ext .ts",
