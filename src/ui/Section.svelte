@@ -13,14 +13,15 @@ import type { SectionChild } from 'src/State'
 export let name: string
 export let children: SectionChild[]
 
-// TODO: Add a way to remove specific children
-// TODO: Add a way to name specific children
-
 const dispatch = createEventDispatcher()
 
 function raiseRemoveSection() {
   dispatch('removeSection', { self: this })
 }
+
+let addingClock = false
+let newClockMode = EditMode.Edit
+let newClockSegments = 4
 
 function addClock() {
   if (newClockMode !== EditMode.Read) { return }
@@ -68,18 +69,19 @@ function addTimer() {
   children = children
 }
 
-let addingClock = false
-let newClockMode = EditMode.Edit
-let newClockSegments = 4
+function removeChild(i: number) {
+  children.splice(i, 1)
+  children = children
+}
 </script>
 
 <section class="counters-section" transition:fade={{ duration: 100 }}>
   <div class="counters-section__name">
     <EditableText bind:value={name} />
   </div>
-  <button class="counters-section__remove" on:click|preventDefault={raiseRemoveSection}>❌</button>
+  <button class="counters-section__remove" on:click|preventDefault={raiseRemoveSection}>🗑️</button>
   <div class="counters-section__children">
-    {#each children as child}
+    {#each children as child, i}
       <div class="counters-section__child">
         {#if child.type === 'clock'}
           <Clock {...child}
@@ -97,6 +99,9 @@ let newClockSegments = 4
         {/if}
         <div class="counters-section__child-name">
           <EditableText bind:value={child.name} />
+        </div>
+        <div class="counters-section__remove-child">
+          <button on:click|preventDefault={() => removeChild(i)}>🗑️</button>
         </div>
       </div>
     {/each}

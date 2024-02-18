@@ -41,6 +41,14 @@
   text-align: center;
 }
 
+.counters-timer__buttons button {
+  margin: 0;
+  padding: 0 0.2em;
+  width: 2em;
+  height: 1.5em;
+  vertical-align: middle;
+}
+
 .counters-counter__buttons button[disabled] {
   color: #999;
 }
@@ -100,13 +108,6 @@
   flex-direction: column;
 }
 
-.counters-section__child button {
-  margin: 0;
-  padding: 0 0.2em;
-  width: 2em;
-  height: 1.5em;
-  vertical-align: middle;
-}
 
 .counters-section__child-name {
   font-size: 75%;
@@ -118,6 +119,7 @@
 
 .counters-section__child-name span {
   display: inline-block;
+  margin: 0.25em 0;
   text-align: center;
   width: 100%;
 }
@@ -128,9 +130,19 @@
 }
 
 .counters-section__remove {
+  cursor: pointer;
   position: absolute;
   top: 0.5em;
   right: 0.5em;
+  font-size: 50%;
+}
+
+.counters-section__remove-child {
+  text-align: center;
+}
+
+.counters-section__remove-child button {
+  cursor: pointer;
   font-size: 50%;
 }
 
@@ -156,6 +168,14 @@
 
 .counters-timer__elapsed {
   font-family: monospace;
+}
+
+.counters-timer__buttons button {
+  margin: 0;
+  padding: 0 0.2em;
+  width: 2em;
+  height: 1.5em;
+  vertical-align: middle;
 }
 
 .counters-title {
