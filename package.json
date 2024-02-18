@@ -1,6 +1,6 @@
 {
   "name": "obsidian-counters",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Counters, clocks and stopwatches for https://obsidian.md/.",
   "main": "main.js",
   "scripts": {

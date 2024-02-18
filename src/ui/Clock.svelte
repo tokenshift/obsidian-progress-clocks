@@ -49,7 +49,7 @@ function decrement() {
     data-counters-segments={segments}
     data-counters-filled={filled}
     xmlns="http://www.w3.org/2000/svg"
-    viewbox="0 0 {2*radius + 2*padding} {2*radius + 2*padding}"
+    viewBox="0 0 {2*radius + 2*padding} {2*radius + 2*padding}"
     on:click|preventDefault={increment}
     on:contextmenu|preventDefault={decrement}>
     {#if segments > 1}

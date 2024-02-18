@@ -8,7 +8,7 @@ enum EditMode {
 
 export let mode = EditMode.Read
 
-function startEditing(el: HTMLElement) {
+function startEditing() {
   mode = EditMode.Edit
 }
 

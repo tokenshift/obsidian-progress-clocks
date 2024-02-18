@@ -1,7 +1,7 @@
 {
 	"id": "counters",
 	"name": "Counters",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"minAppVersion": "0.12.0",
 	"description": "Counters, clocks and stopwatches for Obsidian.",
 	"author": "Nathan Clark",
