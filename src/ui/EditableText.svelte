@@ -25,7 +25,7 @@ function onKeyDown(e: KeyboardEvent) {
 </script>
 
 {#if mode === EditMode.Read}
-  <span on:click={startEditing}>{value}</span>
+  <span on:click={startEditing}>{#if value == ''}&nbsp;{/if}{value}</span>
 {:else}
   <input type="text" bind:value use:focus on:keydown={onKeyDown} />
 {/if}

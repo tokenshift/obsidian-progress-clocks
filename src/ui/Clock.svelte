@@ -1,7 +1,4 @@
 <script type="ts">
-import EditableText from './EditableText.svelte'
-
-export let name: string = 'Clock'
 export let segments: number = 4
 export let filled: number = 0
 
@@ -69,7 +66,4 @@ function decrement() {
     {/if}
     <circle cx={radius+padding} cy={radius+padding} r={radius} data-filled={fillCircle} />
   </svg>
-  <div class="counters-clock__name">
-    <EditableText bind:value={name} />
-  </div>
 </div>

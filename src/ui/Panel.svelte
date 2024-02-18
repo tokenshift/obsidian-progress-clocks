@@ -8,6 +8,7 @@ const dispatch = createEventDispatcher()
 
 export let state = new State()
 export let version: string
+export let showTitle = false
 
 $: dispatch('stateUpdated', { state })
 
@@ -21,6 +22,13 @@ function removeSection(i: number) {
   state.sections = state.sections
 }
 </script>
+
+{#if showTitle}
+<header class="counters-title">
+  <span class="counters-title__main-title">Counters</span>
+  <a class="counters-title__subtitle" href="https://github.com/tokenshift/obsidian-counters">https://github.com/tokenshift/obsidian-counters</a>
+</header>
+{/if}
 
 <div class="counters-panel">
   {#each state.sections as section, i}

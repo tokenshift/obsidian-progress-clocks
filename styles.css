@@ -36,10 +36,6 @@
   stroke-width: 2;
 }
 
-.counters-clock__name {
-  font-size: 75%;
-}
-
 .counters-counter {
   display: inline-block;
   text-align: center;
@@ -93,6 +89,39 @@
   margin-top: 1em;
 }
 
+.counters-section__children {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.counters-section__child {
+  align-self: flex-end;
+  display: flex;
+  flex-direction: column;
+}
+
+.counters-section__child button {
+  margin: 0;
+  padding: 0 0.2em;
+  width: 2em;
+  height: 1.5em;
+  vertical-align: middle;
+}
+
+.counters-section__child-name {
+  font-size: 75%;
+  min-height: 1em;
+  min-width: 1em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.counters-section__child-name span {
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+}
+
 .counters-section__name {
   font-size: 75%;
   font-weight: lighter;
@@ -105,7 +134,7 @@
   font-size: 50%;
 }
 
-.counters-section__slot > * {
+.counters-section__children > * {
   margin-right: 0.5em;
   margin-top: 0.5em;
   vertical-align: middle;

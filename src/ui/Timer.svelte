@@ -3,7 +3,6 @@ import { onDestroy, onMount } from 'svelte'
 
 const locale = Intl.NumberFormat().resolvedOptions().locale
 
-export let name: string = 'Clock'
 export let startMillis: number = new Date().getTime()
 export let offsetMillis: number = 0
 export let showMillis: boolean = false

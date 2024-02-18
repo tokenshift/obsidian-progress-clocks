@@ -35,7 +35,11 @@ export default class CountersView extends ItemView {
 
     const panel = new Panel({
       target: this.contentEl,
-      props: { state, version: this.plugin.manifest.version }
+      props: {
+        showTitle: true,
+        state,
+        version: this.plugin.manifest.version
+      }
     })
 
     panel.$on('stateUpdated', debounce(({ detail: { state } }) => {

@@ -78,25 +78,27 @@ let newClockSegments = 4
     <EditableText bind:value={name} />
   </div>
   <button class="counters-section__remove" on:click|preventDefault={raiseRemoveSection}>❌</button>
-  <div class="counters-section__slot">
+  <div class="counters-section__children">
     {#each children as child}
-      {#if child.type === 'clock'}
-        <Clock {...child}
-          bind:name={child.name}
-          bind:segments={child.segments}
-          bind:filled={child.filled} />
-      {:else if child.type === 'counter'}
-        <Counter {...child}
-          bind:name={child.name}
-          bind:value={child.value} />
-      {:else if child.type === 'timer'}
-        <Timer {...child}
-          bind:name={child.name}
-          bind:startMillis={child.startMillis}
-          bind:offsetMillis={child.offsetMillis}
-          bind:showMillis={child.showMillis}
-          bind:isRunning={child.isRunning} />
-      {/if}
+      <div class="counters-section__child">
+        {#if child.type === 'clock'}
+          <Clock {...child}
+            bind:segments={child.segments}
+            bind:filled={child.filled} />
+        {:else if child.type === 'counter'}
+          <Counter {...child}
+            bind:value={child.value} />
+        {:else if child.type === 'timer'}
+          <Timer {...child}
+            bind:startMillis={child.startMillis}
+            bind:offsetMillis={child.offsetMillis}
+            bind:showMillis={child.showMillis}
+            bind:isRunning={child.isRunning} />
+        {/if}
+        <div class="counters-section__child-name">
+          <EditableText bind:value={child.name} />
+        </div>
+      </div>
     {/each}
   </div>
   <div class="counters-section__add-child">

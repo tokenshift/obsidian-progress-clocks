@@ -1,7 +1,6 @@
 <script lang="ts">
 import EditableNumber from './EditableNumber.svelte'
 
-export let name: string = 'Counter'
 export let value = 0
 export let step = 1
 
