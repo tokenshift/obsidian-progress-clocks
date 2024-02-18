@@ -893,6 +893,11 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
+lucide-svelte@^0.331.0:
+  version "0.331.0"
+  resolved "https://registry.npmjs.org/lucide-svelte/-/lucide-svelte-0.331.0.tgz"
+  integrity sha512-QlXeBFJ2ipe5Fgt7qKx1v37FLuA9zFa+68tASm5tGgz+ocNdMkXDxSIsED2SegEZCuuiFW+UAckD2H+susexrQ==
+
 magic-string@^0.25.7:
   version "0.25.9"
   resolved "https://registry.npmjs.org/magic-string/-/magic-string-0.25.9.tgz"
@@ -1277,7 +1282,7 @@ svelte-preprocess@^4.0.0, svelte-preprocess@^4.10.7:
     sorcery "^0.10.0"
     strip-indent "^3.0.0"
 
-"svelte@^3.19.0 || ^4.0.0", svelte@^3.2.0, svelte@^3.23.0, svelte@^3.24.0, svelte@^3.44.0, svelte@^3.49.0:
+"svelte@^3 || ^4 || ^5.0.0-next.42", "svelte@^3.19.0 || ^4.0.0", svelte@^3.2.0, svelte@^3.23.0, svelte@^3.24.0, svelte@^3.44.0, svelte@^3.49.0:
   version "3.59.2"
   resolved "https://registry.npmjs.org/svelte/-/svelte-3.59.2.tgz"
   integrity sha512-vzSyuGr3eEoAtT/A6bmajosJZIUWySzY2CzB3w2pgPvnkUjGqlDnsNnA0PMO+mMAhuyMul6C2uuZzY6ELSkzyA==

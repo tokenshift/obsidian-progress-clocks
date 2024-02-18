@@ -1,4 +1,8 @@
 <script type="ts">
+import { MinusSquare, PlusSquare } from 'lucide-svelte'
+
+import { clickable } from './util'
+
 export let segments: number = 4
 export let filled: number = 0
 
@@ -42,16 +46,37 @@ function decrement() {
     filled = segments
   }
 }
+
+function onKeyDown (e: KeyboardEvent) {
+  if (['Enter', ' '].contains(e.key)) {
+    e.ctrlKey ? decrement() : increment()
+  } else if (['ArrowUp', 'ArrowRight'].contains(e.key)) {
+    if (e.ctrlKey) {
+      segments = segments + 1
+    } else {
+      increment()
+    }
+  } else if (['ArrowDown', 'ArrowLeft'].contains(e.key)) {
+    if (e.ctrlKey) {
+      segments = Math.max(1, segments -1)
+    } else {
+      decrement()
+    }
+  }
+}
 </script>
 
-<div class="counters-clock">
+<div class="progress-clocks-clock">
   <svg
-    data-counters-segments={segments}
-    data-counters-filled={filled}
+    data-segments={segments}
+    data-filled={filled}
+    role="button"
+    tabindex="0"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 {2*radius + 2*padding} {2*radius + 2*padding}"
-    on:click|preventDefault={increment}
-    on:contextmenu|preventDefault={decrement}>
+    on:click={increment}
+    on:contextmenu={decrement}
+    on:keydown={onKeyDown}>
     {#if segments > 1}
       {#each slices(segments, filled) as { x1, x2, y1, y2, isFilled }, i}
         <path
@@ -66,4 +91,22 @@ function decrement() {
     {/if}
     <circle cx={radius+padding} cy={radius+padding} r={radius} data-filled={fillCircle} />
   </svg>
+  <div class="progress-clocks-clock__buttons">
+    <div
+      role="button"
+      tabindex="0"
+      class="progress-clocks-button progress-clocks-clock__decrement"
+      on:click={decrement}
+      on:keydown={clickable(decrement)}>
+      <MinusSquare />
+    </div>
+    <div
+      role="button"
+      tabindex="0"
+      class="progress-clocks-button progress-clocks-clock__increment"
+      on:click={increment}
+      on:keydown={clickable(increment)}>
+      <PlusSquare />
+    </div>
+  </div>
 </div>

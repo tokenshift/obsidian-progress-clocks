@@ -1,4 +1,5 @@
 <script lang="ts">
+import { PieChart, PlusSquare, Timer, Trash2 } from 'lucide-svelte'
 import { createEventDispatcher, tick } from 'svelte'
 import { fade } from 'svelte/transition'
 
@@ -6,9 +7,10 @@ import EditableText from './EditableText.svelte'
 import EditableNumber, { EditMode } from './EditableNumber.svelte'
 import Clock from './Clock.svelte'
 import Counter from './Counter.svelte'
-import Timer from './Timer.svelte'
+import StopWatch from './StopWatch.svelte'
 
 import type { SectionChild } from 'src/State'
+import { clickable } from './util'
 
 export let name: string
 export let children: SectionChild[]
@@ -56,14 +58,15 @@ function addCounter() {
   children = children
 }
 
-function addTimer() {
+function addStopwatch() {
   children.push({
-    type: 'timer',
-    name: `Timer ${children.length + 1}`,
+    type: 'stopwatch',
+    name: `Stopwatch ${children.length + 1}`,
     startMillis: new Date().getTime(),
     offsetMillis: 0,
     showMillis: false,
-    isRunning: true
+    isRunning: true,
+    lapTimes: []
   })
 
   children = children
@@ -75,14 +78,24 @@ function removeChild(i: number) {
 }
 </script>
 
-<section class="counters-section" transition:fade={{ duration: 100 }}>
-  <div class="counters-section__name">
+<section class="progress-clocks-section" transition:fade={{ duration: 100 }}>
+  <div class="progress-clocks-section__name">
     <EditableText bind:value={name} />
   </div>
-  <button class="counters-section__remove" on:click|preventDefault={raiseRemoveSection}>🗑️</button>
-  <div class="counters-section__children">
+
+  <div
+    role="button"
+    tabindex="0"
+    class="progress-clocks-button progress-clocks-section__remove"
+    on:click={clickable(raiseRemoveSection)}
+    on:contextmenu={clickable(raiseRemoveSection)}
+    on:keydown={clickable(raiseRemoveSection)}>
+    <Trash2 />
+  </div>
+
+  <div class="progress-clocks-section__children">
     {#each children as child, i}
-      <div class="counters-section__child">
+      <div class="progress-clocks-section__child">
         {#if child.type === 'clock'}
           <Clock {...child}
             bind:segments={child.segments}
@@ -90,30 +103,59 @@ function removeChild(i: number) {
         {:else if child.type === 'counter'}
           <Counter {...child}
             bind:value={child.value} />
-        {:else if child.type === 'timer'}
-          <Timer {...child}
+        {:else if child.type === 'stopwatch'}
+          <StopWatch {...child}
             bind:startMillis={child.startMillis}
             bind:offsetMillis={child.offsetMillis}
             bind:showMillis={child.showMillis}
-            bind:isRunning={child.isRunning} />
+            bind:isRunning={child.isRunning}
+            bind:lapTimes={child.lapTimes} />
         {/if}
-        <div class="counters-section__child-name">
+
+        <div class="progress-clocks-section__child-name">
           <EditableText bind:value={child.name} />
         </div>
-        <div class="counters-section__remove-child">
-          <button on:click|preventDefault={() => removeChild(i)}>🗑️</button>
+
+        <div class="progress-clocks-section__remove-child">
+          <div
+            role="button"
+            tabindex="0"
+            class="progress-clocks-button progress-clocks-section__remove-child"
+            on:click={clickable(() => removeChild(i))}
+            on:contextmenu={clickable(() => removeChild(i))}
+            on:keydown={clickable(() => removeChild(i))}>
+            <Trash2 />
+          </div>
         </div>
       </div>
     {/each}
   </div>
-  <div class="counters-section__add-child">
-    Add:
+  <div class="progress-clocks-section__add-child">
     {#if addingClock}
-    <EditableNumber bind:mode={newClockMode} bind:value={newClockSegments} on:modeChanged={addClock} />
+    <EditableNumber
+      bind:mode={newClockMode}
+      bind:value={newClockSegments}
+      on:confirmed={addClock}
+      on:cancelled={() => { addingClock = false; newClockMode = EditMode.Edit } } />
     {:else}
-    <button class="counters-section__add-clock" on:click|preventDefault={() => addingClock = true}>🕒</button>
+    <button
+      class="progress-clocks-section__add-clock"
+      title="Add new progress clock"
+      on:click={() => addingClock = true}>
+      <PieChart />
+    </button>
     {/if}
-    <button class="counters-section__add-counter" on:click|preventDefault={addCounter}>#️</button>
-    <button class="counters-section__add-timer" on:click|preventDefault={addTimer}>⏳</button>
+    <button
+      class="progress-clocks-section__add-counter"
+      title="Add new counter"
+      on:click={addCounter}>
+      <PlusSquare />
+    </button>
+    <button
+      class="progress-clocks-section__add-stopwatch"
+      title="Add new stopwatch"
+      on:click={addStopwatch}>
+      <Timer />
+    </button>
   </div>
 </section>

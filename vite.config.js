@@ -22,7 +22,7 @@ export default defineConfig(() => {
                 ignoreTryCatch: false,
             },
             lib: {
-                entry: path.resolve(__dirname, './src/CountersPlugin.ts'),
+                entry: path.resolve(__dirname, './src/ProgressClocksPlugin.ts'),
                 formats: ['cjs'],
             },
             css: {},

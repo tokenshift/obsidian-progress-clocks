@@ -1,205 +1,211 @@
-.counters-clock {
-  display: inline-block;
-  text-align: center;
+.progress-clocks {
+  --add-green: rgb(0, 164, 0);
+  --remove-red: rgb(164, 0, 0);
 }
 
-.counters-clock svg {
-  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5));
-  width: 2.5em;
-  height: 2.5em;
-  vertical-align: middle;
+span[tabindex] {
+  border: 1px solid rgba(255, 255, 255, 0.0);
+  border-radius: 0.25em;
 }
 
-.counters-clock svg circle {
+span:is(:active, :focus, :focus-visible) {
+  border: 1px solid #999;
+}
+
+svg:is(:active, :focus, :focus-visible) {
+  border: 1px solid #999;
+}
+
+.progress-clocks-button {
+  border: 1px solid rgba(255, 255, 255, 0.0);
+  border-radius: 0.25em;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  padding: 0.25em;
+}
+
+.progress-clocks-button:is(:active, :focus, :focus-visible, :hover) {
+  border: 1px solid #999;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.progress-clocks-button .lucide-icon {
+  height: 1em;
+  width: 1em;
+}
+
+.progress-clocks-clock circle {
   fill: none;
-  stroke: #000;
+  stroke: rgb(0, 0, 0);
   stroke-width: 4;
 }
 
-.counters-clock svg circle[data-filled="false"] {
-  fill: #fff;
+.progress-clocks-clock circle[data-filled="false"] {
+  fill: rgb(255, 255, 255);
+}
+.progress-clocks-clock circle[data-filled="true"] {
+  fill: rgb(0, 0, 0);
 }
 
-.counters-clock svg circle[data-filled="true"] {
-  fill: #000;
-}
-
-.counters-clock svg path {
-  fill: #fff;
-  stroke: #000;
+.progress-clocks-clock path[data-filled="false"] {
+  fill: rgb(255, 255, 255);
+  stroke: rgb(0, 0, 0);
   stroke-width: 2;
 }
 
-.counters-clock svg path[data-filled="true"] {
-  fill: #000;
-  stroke: #fff;
+.progress-clocks-clock path[data-filled="true"] {
+  fill: rgb(0, 0, 0);
+  stroke: rgb(255, 255, 255);
   stroke-width: 2;
 }
 
-.counters-counter {
-  display: inline-block;
-  text-align: center;
+.progress-clocks-clock svg {
+  display: block;
+  height: 4em;
+  width: 4em;
 }
 
-.counters-timer__buttons button {
-  margin: 0;
-  padding: 0 0.2em;
-  width: 2em;
-  height: 1.5em;
-  vertical-align: middle;
+.progress-clocks-clock__buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
-.counters-counter__buttons button[disabled] {
-  color: #999;
+.progress-clocks-clock__decrement {
+  color: var(--remove-red);
 }
 
-.counters-counter__button-increment {
-  color: #0d0;
+.progress-clocks-clock__increment {
+  color: var(--add-green);
 }
 
-.counters-counter__button-decrement {
-  color: #d00;
+.progress-clocks-counter__buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
-.counters-counter__value {
+.progress-clocks-counter__decrement {
+  color: var(--remove-red);
+}
+
+.progress-clocks-counter__increment {
+  color: var(--add-green);
+}
+
+.progress-clocks-counter__value {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 4em;
+}
+
+.progress-clocks-counter__value span {
+  display: block;
   font-family: monospace;
-}
-
-.counters-counter__value input {
+  font-size: 150%;
+  font-weight: bold;
   text-align: center;
-  width: 6em;
 }
 
-.counters-counter__value span {
-  display: inline-block;
+.progress-clocks-counter__value input {
+  font-family: monospace;
   text-align: center;
-  width: 100%;
+  width: 4em;
 }
 
-.counters-panel {
+.progress-clocks-section {
+  border: 1px solid #999;
+  border-radius: 0.25em;
+  margin-bottom: 0.5em;
+  padding: 0.25em 0.5em;
   position: relative;
 }
 
-.counters-panel__add-section {
-  display: inline-block;
-  margin-top: 0.25em;
+.progress-clocks-section__add-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
 }
 
-.counters-section {
-  border: 1px solid #999;
-  border-radius: 0.5em;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  padding: 0.25em 0.5em;
-  position: relative
+.progress-clocks-section__add-child input {
+  width: 4em;
 }
 
-.counters-section + .counters-section {
-  margin-top: 1em;
-}
-
-.counters-section__children {
+.progress-clocks-section__children {
   display: flex;
   flex-wrap: wrap;
 }
 
-.counters-section__child {
-  align-self: flex-end;
+.progress-clocks-section__child {
   display: flex;
   flex-direction: column;
-}
-
-
-.counters-section__child-name {
-  font-size: 75%;
-  min-height: 1em;
-  min-width: 1em;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.counters-section__child-name span {
-  display: inline-block;
-  margin: 0.25em 0;
-  text-align: center;
-  width: 100%;
-}
-
-.counters-section__name {
-  font-size: 75%;
-  font-weight: lighter;
-}
-
-.counters-section__remove {
-  cursor: pointer;
-  position: absolute;
-  top: 0.5em;
-  right: 0.5em;
-  font-size: 50%;
-}
-
-.counters-section__remove-child {
-  text-align: center;
-}
-
-.counters-section__remove-child button {
-  cursor: pointer;
-  font-size: 50%;
-}
-
-.counters-section__children > * {
+  justify-content: flex-end;
+  margin-bottom: 0.25em;
   margin-right: 0.5em;
-  margin-top: 0.5em;
-  vertical-align: middle;
+  padding-right: 1em;
+  position: relative;
 }
 
-.counters-section__add-child {
-  font-size: 75%;
-  margin-top: 0.5em;
-}
-
-.counters-section__add-child input {
-  width: 2em;
-}
-
-.counters-timer {
-  display: inline-block;
+.progress-clocks-section__child-name {
+  font-size: 90%;
   text-align: center;
 }
 
-.counters-timer__elapsed {
+.progress-clocks-section__name {
+  font-size: 90%;
+  font-weight: 200;
+  margin-bottom: 0.25em;
+}
+
+.progress-clocks-section__remove {
+  color: var(--remove-red);
+  position: absolute;
+  right: 0.25em;
+  top: 0.25em;
+}
+
+.progress-clocks-section__remove-child {
+  color: var(--remove-red);
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.progress-clocks-stopwatch__elapsed {
   font-family: monospace;
+  text-align: center;
 }
 
-.counters-timer__buttons button {
-  margin: 0;
-  padding: 0 0.2em;
-  width: 2em;
-  height: 1.5em;
-  vertical-align: middle;
+.progress-clocks-stopwatch__elapsed:is(:active, :focus, :focus-visible) {
+  border: 1px solid #999;
 }
 
-.counters-title {
+.progress-clocks-stopwatch__laps {
+  display: grid;
+  gap: 0.5em;
+  grid-template-columns: 1fr 1fr;
+  font-family: monospace;
+  text-align: center;
+}
+
+.progress-clocks-title {
   display: flex;
   flex-direction: column;
   margin-bottom: 0.25em;
   text-align: center;
 }
 
-.counters-title__main-title {
+.progress-clocks-title__main-title {
   font-weight: 500;
 }
 
-.counters-title__subtitle {
+.progress-clocks-title__subtitle {
   font-size: 75%;
   font-weight: 200;
+  text-decoration: none;
 }
 
-.counters-version {
-  font-weight: 100;
-  font-size: 75%;
-  text-align: right;
-  opacity: 0.75;
-  position: absolute;
-  bottom: 0;
-  right: 0;
+.progress-clocks-title__subtitle:is(:active, :focus, :focus-visible, :hover) {
+  text-decoration: underline;
 }

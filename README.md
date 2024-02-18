@@ -1,6 +1,6 @@
 # Obsidian Progress Clocks
 
-Progress clocks, counters, and stopwatches for[Obsidian.md](https://obsidian.md/).
+Progress clocks, counters, and stopwatches for [Obsidian.md](https://obsidian.md/).
 
 ## Types of Counters
 

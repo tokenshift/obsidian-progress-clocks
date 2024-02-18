@@ -1,22 +1,13 @@
 import { MarkdownRenderChild, debounce } from 'obsidian'
 
 import Panel from './ui/Panel.svelte'
-import type CountersPlugin from './CountersPlugin'
+import type ProgressClocksPlugin from './ProgressClocksPlugin'
 
 const DEBOUNCE_SAVE_STATE_TIME = 1000
 
-export default class CountersRenderChild extends MarkdownRenderChild {
-  plugin: CountersPlugin
-  element: HTMLElement
-
-  constructor (options: {
-    plugin: CountersPlugin,
-    element: HTMLElement
-  }) {
-    super(options.element)
-
-    this.plugin = options.plugin
-    this.element = options.element
+export default class ProgressClocksRenderChild extends MarkdownRenderChild {
+  constructor (public plugin: ProgressClocksPlugin, public element: HTMLElement) {
+    super(element)
   }
 
   async onload () {

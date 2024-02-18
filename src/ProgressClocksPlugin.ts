@@ -1,16 +1,16 @@
 import type { MarkdownPostProcessorContext, WorkspaceLeaf } from 'obsidian'
 import { Plugin } from 'obsidian'
 
-import CountersRenderChild from './CountersRenderChild'
-import CountersView, { VIEW_TYPE } from './CountersView'
+import ProgressClocksRenderChild from './ProgressClocksRenderChild'
+import ProgressClocksView, { VIEW_TYPE } from './ProgressClocksView'
 
-export default class CountersPlugin extends Plugin {
+export default class ProgressClocksPlugin extends Plugin {
   async onload () {
     this.registerMarkdownCodeBlockProcessor('counters', (source, el, ctx) => this.handleCountersCodeBlock(source, el, ctx))
 
     this.registerView(
       VIEW_TYPE,
-      (leaf: WorkspaceLeaf) => new CountersView(this, leaf))
+      (leaf: WorkspaceLeaf) => new ProgressClocksView(this, leaf))
 
     if (this.app.workspace.getLeavesOfType(VIEW_TYPE).length > 0) {
         return;
@@ -22,7 +22,7 @@ export default class CountersPlugin extends Plugin {
 
   async handleCountersCodeBlock (source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) {
     try {
-      const child = new CountersRenderChild({ plugin: this, element: el })
+      const child = new ProgressClocksRenderChild(this, el)
       ctx.addChild(child)
     } catch (err) {
       const pre = document.createElement('pre')

@@ -3,6 +3,7 @@ import { createEventDispatcher } from 'svelte'
 
 import State from '../State'
 import Section from './Section.svelte'
+import { clickable } from './util'
 
 const dispatch = createEventDispatcher()
 
@@ -23,26 +24,38 @@ function removeSection(i: number) {
 }
 </script>
 
-{#if showTitle}
-<header class="counters-title">
-  <span class="counters-title__main-title">Counters</span>
-  <a class="counters-title__subtitle" href="https://github.com/tokenshift/obsidian-counters">https://github.com/tokenshift/obsidian-counters</a>
-</header>
-{/if}
+<div class="progress-clocks progress-clocks-panel">
+  {#if showTitle}
+    <header class="progress-clocks-title">
+      <span class="progress-clocks-title__main-title">Progress Clocks</span>
+      <a
+        class="progress-clocks-title__subtitle"
+        href="https://github.com/tokenshift/obsidian-progress-clocks">
+        https://github.com/tokenshift/obsidian-counters
+      </a>
+    </header>
+  {/if}
 
-<div class="counters-panel">
   {#each state.sections as section, i}
     <Section bind:name={section.name} bind:children={section.children} on:removeSection={() => removeSection(i)} />
   {/each}
-  <a href="javascript:;" class="counters-panel__add-section" on:click={addSection}>Add Section</a>
+
+  <div
+    class="progress-clocks-button progress-clocks-panel__add-section"
+    role="button"
+    tabindex="0"
+    on:keydown={clickable(addSection)}
+    on:click={addSection}>Add Section</div>
+
+  {#if state.debug}
+  <pre class="progress-clocks-debug">
+  {JSON.stringify(state, null, 2)}
+  </pre>
+  {/if}
+
   {#if version}
-  <span class="counters-version">Counters v{version}</span>
+  <span class="progress-clocks-panel__version">Counters v{version}</span>
   {/if}
 </div>
 
-{#if state.debug}
-<pre class="counters-debug">
-{JSON.stringify(state, null, 2)}
-</pre>
-{/if}
 

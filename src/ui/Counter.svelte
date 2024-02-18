@@ -1,33 +1,40 @@
 <script lang="ts">
+import { MinusSquare, PlusSquare } from 'lucide-svelte'
+
 import EditableNumber from './EditableNumber.svelte'
+import { clickable } from './util'
 
 export let value = 0
-export let step = 1
-
-export let min: number | null = null
-export let max: number | null = null
 
 export function increment() {
-  value = max === null ? value + step : Math.min(max, value + step)
+  value += 1
 }
 
 export function decrement() {
-  value = min === null ? value - step : Math.max(min, value - step)
+  value -= 1
 }
-
-$: isMin = min !== null && value <= min
-$: isMax = max !== null && value >= max
-
-$: value = max === null ? value + step : Math.min(max, value + step)
-$: value = min === null ? value - step : Math.max(min, value - step)
 </script>
 
-<div class="counters-counter">
-  <div class="counters-counter__value">
+<div class="progress-clocks-counter">
+  <div class="progress-clocks-counter__value">
     <EditableNumber bind:value />
   </div>
-  <div class="counters-counter__buttons">
-    <button class="counters-counter__button-increment" on:click={() => (value += 1)} disabled={isMax}>+</button>
-    <button class="counters-counter__button-decrement" on:click={() => (value -= 1)} disabled={isMin}>-</button>
+  <div class="progress-clocks-counter__buttons">
+    <div
+      role="button"
+      tabindex="0"
+      class="progress-clocks-button progress-clocks-counter__decrement"
+      on:click={decrement}
+      on:keydown={clickable(decrement)}>
+      <MinusSquare />
+    </div>
+    <div
+      role="button"
+      tabindex="0"
+      class="progress-clocks-button progress-clocks-counter__increment"
+      on:click={increment}
+      on:keydown={clickable(increment)}>
+      <PlusSquare />
+    </div>
   </div>
 </div>

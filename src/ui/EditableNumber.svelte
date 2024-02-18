@@ -6,15 +6,15 @@ export enum EditMode {
 </script>
 
 <script lang="ts">
-import { createEventDispatcher } from 'svelte'
-
-export let value: number = 0
-
-let newValue = value.toString()
-
-export let mode: EditMode = EditMode.Read
+import { createEventDispatcher, tick } from 'svelte'
 
 const dispatch = createEventDispatcher()
+
+export let value: number = 0
+let newValue = value.toString()
+let focusTarget: HTMLElement
+
+export let mode: EditMode = EditMode.Read
 $: dispatch('modeChanged', { mode })
 
 function startEditing() {
@@ -25,12 +25,12 @@ function startEditing() {
   mode = EditMode.Edit
 }
 
-function focus(el: HTMLInputElement) {
+function takeFocus(el: HTMLInputElement) {
   el.focus()
   el.select()
 }
 
-function onKeyDown(e: KeyboardEvent) {
+function onEditKeyDown(e: KeyboardEvent) {
   if (e.key === 'Enter') {
     newValue = newValue.trim()
 
@@ -42,14 +42,36 @@ function onKeyDown(e: KeyboardEvent) {
     }
 
     mode = EditMode.Read
+    dispatch('confirmed', { value })
   } else if (e.key === 'Escape') {
     mode = EditMode.Read
+    dispatch('cancelled', { value })
+  }
+
+  tick().then(() => focusTarget?.focus())
+}
+
+
+function onSpanKeyDown(e: KeyboardEvent) {
+  if (['Enter', ' '].contains(e.key)) {
+    startEditing()
+  } else if (['ArrowUp', 'ArrowRight'].contains(e.key)) {
+    value += 1
+  } else if (['ArrowDown', 'ArrowLeft'].contains(e.key)) {
+    value -= 1
   }
 }
 </script>
 
 {#if mode === EditMode.Read}
-  <span on:click={startEditing}>{value}</span>
+  <span
+    role="button"
+    tabindex="0"
+    bind:this={focusTarget}
+    on:click={startEditing}
+    on:keydown={onSpanKeyDown}>
+    {value}
+  </span>
 {:else}
-  <input type="text" bind:value={newValue} use:focus on:keydown={onKeyDown} />
+  <input type="text" bind:value={newValue} use:takeFocus on:keydown={onEditKeyDown} />
 {/if}

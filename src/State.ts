@@ -8,7 +8,7 @@ export type SectionState = {
   children: SectionChild[]
 }
 
-export type SectionChild = ClockState | CounterState | TimerState
+export type SectionChild = ClockState | CounterState | StopwatchState
 
 export type ClockState = {
   type: 'clock'
@@ -21,15 +21,14 @@ export type CounterState = {
   type: 'counter'
   name: string
   value: number
-  min?: number
-  max?: number
 }
 
-export type TimerState = {
-  type: 'timer'
+export type StopwatchState = {
+  type: 'stopwatch'
   name: string
   startMillis: number
   offsetMillis: number
   showMillis: boolean
   isRunning: boolean
+  lapTimes: number[]
 }

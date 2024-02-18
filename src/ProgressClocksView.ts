@@ -1,17 +1,17 @@
-import type CountersPlugin from "main";
-import { ItemView, WorkspaceLeaf, debounce } from "obsidian";
-import Panel from "./ui/Panel.svelte";
+import type ProgressClocksPlugin from './ProgressClocksPlugin'
+import { ItemView, WorkspaceLeaf, debounce } from 'obsidian'
+import Panel from './ui/Panel.svelte'
 
-export const DISPLAY_TEXT = 'Counters'
-export const ICON = 'tally-5' // Icons from https://lucide.dev/icons/
-export const VIEW_TYPE = 'COUNTERS_VIEW'
+export const DISPLAY_TEXT = 'Progress Clocks'
+export const ICON = 'pie-chart' // Icons from https://lucide.dev/icons/
+export const VIEW_TYPE = 'PROGRESS_CLOCKS_VIEW'
 
 const DEBOUNCE_SAVE_STATE_TIME = 1000
 
-export default class CountersView extends ItemView {
+export default class ProgressClocksView extends ItemView {
   navigation = false
 
-  constructor(public plugin: CountersPlugin, public leaf: WorkspaceLeaf) {
+  constructor(public plugin: ProgressClocksPlugin, public leaf: WorkspaceLeaf) {
     super(leaf)
   }
 
