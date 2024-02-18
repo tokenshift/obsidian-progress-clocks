@@ -129,6 +129,22 @@
   font-family: monospace;
 }
 
+.counters-title {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.25em;
+  text-align: center;
+}
+
+.counters-title__main-title {
+  font-weight: 500;
+}
+
+.counters-title__subtitle {
+  font-size: 75%;
+  font-weight: 200;
+}
+
 .counters-version {
   font-weight: 100;
   font-size: 75%;
