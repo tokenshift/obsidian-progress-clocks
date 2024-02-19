@@ -12,12 +12,30 @@ export default class ProgressClocksPlugin extends Plugin {
       VIEW_TYPE,
       (leaf: WorkspaceLeaf) => new ProgressClocksView(this, leaf))
 
+    this.addView()
+
+    this.addCommand({
+      id: 'open-progress-clocks-panel',
+      name: 'Open the Progress Clocks panel',
+      callback: async () => {
+        const leaf = await this.addView()
+        if (leaf) {
+          this.app.workspace.revealLeaf(leaf)
+        }
+      }
+    })
+  }
+
+  async addView () {
     if (this.app.workspace.getLeavesOfType(VIEW_TYPE).length > 0) {
-        return;
+      return this.app.workspace.getLeavesOfType(VIEW_TYPE)[0]
     }
+
     await this.app.workspace.getRightLeaf(false).setViewState({
         type: VIEW_TYPE
     });
+
+    return this.app.workspace.getLeavesOfType(VIEW_TYPE)[0]
   }
 
   async handleCountersCodeBlock (source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) {

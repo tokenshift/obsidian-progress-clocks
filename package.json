@@ -1,8 +1,9 @@
 {
   "name": "obsidian-progress-clocks",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Progress clocks and other useful widgets for https://obsidian.md/.",
   "main": "main.js",
+  "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext .ts",
     "dev": "npm run lint && vite build --watch",
