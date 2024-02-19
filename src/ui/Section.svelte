@@ -10,15 +10,17 @@ import Counter from './Counter.svelte'
 import StopWatch from './StopWatch.svelte'
 
 import type { SectionChild } from 'src/State'
-import { clickable } from './util'
+import { ifClickEquivalent } from './util'
 
 export let name: string
 export let children: SectionChild[]
 
 const dispatch = createEventDispatcher()
 
-function raiseRemoveSection() {
-  dispatch('removeSection', { self: this })
+function raiseRemoveSection(e: MouseEvent | KeyboardEvent) {
+  if (e instanceof MouseEvent || ['Enter', ' '].contains(e.key)) {
+    dispatch('removeSection', { self: this })
+  }
 }
 
 let addingClock = false
@@ -72,7 +74,7 @@ function addStopwatch() {
   children = children
 }
 
-function removeChild(i: number) {
+function removeChild(e: MouseEvent | KeyboardEvent, i: number) {
   children.splice(i, 1)
   children = children
 }
@@ -87,15 +89,15 @@ function removeChild(i: number) {
     role="button"
     tabindex="0"
     class="progress-clocks-button progress-clocks-section__remove"
-    on:click={clickable(raiseRemoveSection)}
-    on:contextmenu={clickable(raiseRemoveSection)}
-    on:keydown={clickable(raiseRemoveSection)}>
+    on:click={raiseRemoveSection}
+    on:contextmenu={raiseRemoveSection}
+    on:keydown={raiseRemoveSection}>
     <Trash2 />
   </div>
 
   <div class="progress-clocks-section__children">
     {#each children as child, i}
-      <div class="progress-clocks-section__child">
+      <div class="progress-clocks-section__child" data-child-type={child.type}>
         {#if child.type === 'clock'}
           <Clock {...child}
             bind:segments={child.segments}
@@ -121,9 +123,8 @@ function removeChild(i: number) {
             role="button"
             tabindex="0"
             class="progress-clocks-button progress-clocks-section__remove-child"
-            on:click={clickable(() => removeChild(i))}
-            on:contextmenu={clickable(() => removeChild(i))}
-            on:keydown={clickable(() => removeChild(i))}>
+            on:click={(e) => removeChild(e, i)}
+            on:keydown={ifClickEquivalent((e) => removeChild(e, i))}>
             <Trash2 />
           </div>
         </div>

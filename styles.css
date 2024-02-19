@@ -3,13 +3,13 @@
   --remove-red: rgb(164, 0, 0);
 }
 
+*[tabindex]:is(:active, :focus, :focus-visible) {
+  border: 1px solid #999;
+}
+
 span[tabindex] {
   border: 1px solid rgba(255, 255, 255, 0.0);
   border-radius: 0.25em;
-}
-
-span:is(:active, :focus, :focus-visible) {
-  border: 1px solid #999;
 }
 
 svg:is(:active, :focus, :focus-visible) {
@@ -63,6 +63,7 @@ svg:is(:active, :focus, :focus-visible) {
 .progress-clocks-clock svg {
   display: block;
   height: 4em;
+  margin: auto;
   width: 4em;
 }
 
@@ -71,12 +72,24 @@ svg:is(:active, :focus, :focus-visible) {
   grid-template-columns: 1fr 1fr;
 }
 
+.progress-clocks-clock__buttons .lucide-icon {
+  height: 1em;
+  width: 1em;
+}
+
 .progress-clocks-clock__decrement {
   color: var(--remove-red);
 }
 
 .progress-clocks-clock__increment {
   color: var(--add-green);
+}
+
+.progress-clocks-counter {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-items: flex-end;
 }
 
 .progress-clocks-counter__buttons {
@@ -93,10 +106,10 @@ svg:is(:active, :focus, :focus-visible) {
 }
 
 .progress-clocks-counter__value {
+  flex-grow: 1;
   align-items: center;
   display: flex;
   justify-content: center;
-  height: 4em;
 }
 
 .progress-clocks-counter__value span {
@@ -147,6 +160,10 @@ svg:is(:active, :focus, :focus-visible) {
   position: relative;
 }
 
+.progress-clocks-section__child[data-child-type="stopwatch"] {
+  width: 100%;
+}
+
 .progress-clocks-section__child-name {
   font-size: 90%;
   text-align: center;
@@ -170,6 +187,11 @@ svg:is(:active, :focus, :focus-visible) {
   position: absolute;
   right: 0;
   top: 0;
+}
+
+.progress-clocks-stopwatch__buttons {
+  display: flex;
+  justify-content: center;
 }
 
 .progress-clocks-stopwatch__elapsed {

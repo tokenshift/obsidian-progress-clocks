@@ -2,15 +2,15 @@
 import { MinusSquare, PlusSquare } from 'lucide-svelte'
 
 import EditableNumber from './EditableNumber.svelte'
-import { clickable } from './util'
+import { ifClickEquivalent } from './util'
 
 export let value = 0
 
-export function increment() {
+export function increment(e: MouseEvent | KeyboardEvent) {
   value += 1
 }
 
-export function decrement() {
+export function decrement(e: MouseEvent | KeyboardEvent) {
   value -= 1
 }
 </script>
@@ -24,16 +24,16 @@ export function decrement() {
       role="button"
       tabindex="0"
       class="progress-clocks-button progress-clocks-counter__decrement"
-      on:click={decrement}
-      on:keydown={clickable(decrement)}>
+      on:click|preventDefault={decrement}
+      on:keydown={ifClickEquivalent(decrement)}>
       <MinusSquare />
     </div>
     <div
       role="button"
       tabindex="0"
       class="progress-clocks-button progress-clocks-counter__increment"
-      on:click={increment}
-      on:keydown={clickable(increment)}>
+      on:click|preventDefault={increment}
+      on:keydown={ifClickEquivalent(increment)}>
       <PlusSquare />
     </div>
   </div>

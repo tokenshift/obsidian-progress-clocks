@@ -1,12 +1,14 @@
 <script type="ts">
-import { MinusSquare, PlusSquare } from 'lucide-svelte'
-
-import { clickable } from './util'
+import { ArrowUpFromLine, ArrowDownFromLine, MinusSquare, PlusSquare } from 'lucide-svelte'
+import { ifClickEquivalent } from './util'
 
 export let segments: number = 4
 export let filled: number = 0
 
 $: fillCircle = segments <= 1 ? filled >= 1 : null
+$: segments = Math.max(1, segments)
+$: filled = filled < 0 ? segments : filled
+$: filled = filled > segments ? 0 : filled
 
 const radius = 50
 const padding = 4
@@ -33,35 +35,41 @@ function slices(segments: number, filled: number) {
   return ss
 }
 
-function increment() {
-  filled += 1
-  if (filled > segments) {
-    filled = 0
+function handleIncrement (e: MouseEvent | KeyboardEvent) {
+  if (e.ctrlKey) {
+    segments += 1
+  } else {
+    filled += 1
   }
 }
 
-function decrement() {
-  filled -= 1
-  if (filled < 0) {
-    filled = segments
+function handleDecrement (e: MouseEvent | KeyboardEvent) {
+  if (e.ctrlKey) {
+    segments -= 1
+      filled = Math.min(segments, filled)
+  } else {
+    filled -= 1
   }
 }
 
-function onKeyDown (e: KeyboardEvent) {
-  if (['Enter', ' '].contains(e.key)) {
-    e.ctrlKey ? decrement() : increment()
-  } else if (['ArrowUp', 'ArrowRight'].contains(e.key)) {
+function handleClockKeyInteraction (e: KeyboardEvent) {
+  if (['Enter', ' ', 'ArrowUp', 'ArrowRight'].contains(e.key)) {
     if (e.ctrlKey) {
-      segments = segments + 1
+      segments += 1
     } else {
-      increment()
+      filled += 1
     }
+
+    e.preventDefault()
   } else if (['ArrowDown', 'ArrowLeft'].contains(e.key)) {
     if (e.ctrlKey) {
-      segments = Math.max(1, segments -1)
+      segments -= 1
+      filled = Math.min(segments, filled)
     } else {
-      decrement()
+      filled -= 1
     }
+
+    e.preventDefault()
   }
 }
 </script>
@@ -74,9 +82,9 @@ function onKeyDown (e: KeyboardEvent) {
     tabindex="0"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 {2*radius + 2*padding} {2*radius + 2*padding}"
-    on:click={increment}
-    on:contextmenu={decrement}
-    on:keydown={onKeyDown}>
+    on:click|preventDefault={handleIncrement}
+    on:contextmenu|preventDefault={handleDecrement}
+    on:keydown={handleClockKeyInteraction}>
     {#if segments > 1}
       {#each slices(segments, filled) as { x1, x2, y1, y2, isFilled }, i}
         <path
@@ -92,21 +100,33 @@ function onKeyDown (e: KeyboardEvent) {
     <circle cx={radius+padding} cy={radius+padding} r={radius} data-filled={fillCircle} />
   </svg>
   <div class="progress-clocks-clock__buttons">
-    <div
-      role="button"
-      tabindex="0"
-      class="progress-clocks-button progress-clocks-clock__decrement"
-      on:click={decrement}
-      on:keydown={clickable(decrement)}>
+    <button
+      class="progress-clocks-clock__decrement"
+      title="Unfill one segment"
+      on:click|preventDefault={handleDecrement}
+      on:keydown={ifClickEquivalent(handleDecrement)}>
       <MinusSquare />
-    </div>
-    <div
-      role="button"
-      tabindex="0"
-      class="progress-clocks-button progress-clocks-clock__increment"
-      on:click={increment}
-      on:keydown={clickable(increment)}>
+    </button>
+    <button
+      class="progress-clocks-clock__increment"
+      title="Fill one segment"
+      on:click|preventDefault={handleIncrement}
+      on:keydown={ifClickEquivalent(handleIncrement)}>
       <PlusSquare />
-    </div>
+    </button>
+    <button
+      class="progress-clocks-clock__decrement-segments"
+      title="Remove one segment"
+      on:click|preventDefault={() => segments -= 1}
+      on:keydown={ifClickEquivalent(() => segments -= 1)}>
+      <ArrowDownFromLine />
+    </button>
+    <button
+      class="progress-clocks-clock__increment-segments"
+      title="Add another segment"
+      on:click|preventDefault={() => segments += 1}
+      on:keydown={ifClickEquivalent(() => segments += 1)}>
+      <ArrowUpFromLine />
+    </button>
   </div>
 </div>

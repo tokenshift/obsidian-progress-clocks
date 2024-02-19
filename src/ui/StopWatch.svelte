@@ -1,8 +1,7 @@
 <script lang="ts">
 import { createEventDispatcher, onDestroy, onMount } from 'svelte'
 import { Pause, Play, RefreshCcw, Timer } from 'lucide-svelte'
-
-import { clickable } from './util'
+import { ifClickEquivalent } from './util'
 
 const dispatch = createEventDispatcher()
 const locale = Intl.NumberFormat().resolvedOptions().locale
@@ -109,7 +108,7 @@ function formatTime (ms: number, showMillis: boolean = false) {
     role="button"
     tabindex="0"
     on:click={togglePrecision}
-    on:keydown={clickable(togglePrecision)}>
+    on:keydown={ifClickEquivalent(togglePrecision)}>
     {formatTime(elapsedMs, showMillis)}
   </div>
   <div class="progress-clocks-stopwatch__buttons">
@@ -126,11 +125,14 @@ function formatTime (ms: number, showMillis: boolean = false) {
     <button on:click={lap}>
       <Timer />
     </button>
+    <button on:click={() => showMillis = !showMillis}>
+      /1000
+    </button>
   </div>
   {#if lapTimes.length > 0}
     <div class="progress-clocks-stopwatch__laps">
-      {#each lapTimes as lapTime}
-        <div data-lap-time-ms={lapTime}>{formatTime(lapTime, showMillis)}</div>
+      {#each lapTimes as lapTime, i}
+        <div data-lap-time-ms={lapTime}>({i+1}) {formatTime(lapTime, showMillis)}</div>
       {/each}
     </div>
   {/if}

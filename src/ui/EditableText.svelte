@@ -8,7 +8,7 @@ export enum EditMode {
 
 <script lang="ts">
 import { createEventDispatcher, tick } from 'svelte'
-import { clickable } from './util'
+import { ifClickEquivalent } from './util'
 
 const dispatch = createEventDispatcher()
 
@@ -48,8 +48,8 @@ function onKeyDown(e: KeyboardEvent) {
     role="button"
     tabindex="0"
     bind:this={focusTarget}
-    on:click={clickable(startEditing)}
-    on:keydown={clickable(startEditing)}>
+    on:click={startEditing}
+    on:keydown={ifClickEquivalent(startEditing)}>
     {#if value == ''}&nbsp;{/if}
     {value}
   </span>

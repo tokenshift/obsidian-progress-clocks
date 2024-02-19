@@ -7,6 +7,7 @@ export enum EditMode {
 
 <script lang="ts">
 import { createEventDispatcher, tick } from 'svelte'
+import { ifClickEquivalent } from './util'
 
 const dispatch = createEventDispatcher()
 
@@ -55,10 +56,13 @@ function onEditKeyDown(e: KeyboardEvent) {
 function onSpanKeyDown(e: KeyboardEvent) {
   if (['Enter', ' '].contains(e.key)) {
     startEditing()
+    e.preventDefault()
   } else if (['ArrowUp', 'ArrowRight'].contains(e.key)) {
     value += 1
+    e.preventDefault()
   } else if (['ArrowDown', 'ArrowLeft'].contains(e.key)) {
     value -= 1
+    e.preventDefault()
   }
 }
 </script>
@@ -68,7 +72,7 @@ function onSpanKeyDown(e: KeyboardEvent) {
     role="button"
     tabindex="0"
     bind:this={focusTarget}
-    on:click={startEditing}
+    on:click|preventDefault={startEditing}
     on:keydown={onSpanKeyDown}>
     {value}
   </span>

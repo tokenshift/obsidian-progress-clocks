@@ -3,7 +3,7 @@ import { createEventDispatcher } from 'svelte'
 
 import State from '../State'
 import Section from './Section.svelte'
-import { clickable } from './util'
+import { ifClickEquivalent } from './util'
 
 const dispatch = createEventDispatcher()
 
@@ -13,7 +13,7 @@ export let showTitle = false
 
 $: dispatch('stateUpdated', { state })
 
-function addSection() {
+function addSection(e: MouseEvent | KeyboardEvent) {
   state.sections.push({ name: `Section ${state.sections.length + 1}`, children: [] })
   state.sections = state.sections
 }
@@ -44,7 +44,7 @@ function removeSection(i: number) {
     class="progress-clocks-button progress-clocks-panel__add-section"
     role="button"
     tabindex="0"
-    on:keydown={clickable(addSection)}
+    on:keydown={ifClickEquivalent(addSection)}
     on:click={addSection}>Add Section</div>
 
   {#if state.debug}
