@@ -15,7 +15,7 @@ export default class ProgressClocksPlugin extends Plugin {
     this.addView()
 
     this.addCommand({
-      id: 'open-progress-clocks-panel',
+      id: 'open-panel',
       name: 'Open the Progress Clocks panel',
       callback: async () => {
         const leaf = await this.addView()
