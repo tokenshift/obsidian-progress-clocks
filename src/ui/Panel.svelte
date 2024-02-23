@@ -28,9 +28,7 @@ function removeSection(i: number) {
   {#if showTitle}
     <header class="progress-clocks-title">
       <span class="progress-clocks-title__main-title">Progress Clocks</span>
-      <a
-        class="progress-clocks-title__subtitle"
-        href="https://github.com/tokenshift/obsidian-progress-clocks">
+      <a class="progress-clocks-title__subtitle" href="https://github.com/tokenshift/obsidian-progress-clocks">
         https://github.com/tokenshift/obsidian-counters
       </a>
     </header>
@@ -45,17 +43,17 @@ function removeSection(i: number) {
     role="button"
     tabindex="0"
     on:keydown={ifClickEquivalent(addSection)}
-    on:click={addSection}>Add Section</div>
+    on:click={addSection}>
+    Add Section
+  </div>
 
   {#if state.debug}
-  <pre class="progress-clocks-debug">
+    <pre class="progress-clocks-debug">
   {JSON.stringify(state, null, 2)}
   </pre>
   {/if}
 
   {#if version}
-  <span class="progress-clocks-panel__version">Counters v{version}</span>
+    <div class="progress-clocks-panel__version">Counters v{version}</div>
   {/if}
 </div>
-
-

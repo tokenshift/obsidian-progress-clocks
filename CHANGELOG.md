@@ -1,5 +1,12 @@
 # Changelog
 
+## [Unreleased]
+
+### Modified
+
+* The meta (⌘) or ctrl key can now be used to add/remove clock segments (rather)
+  than just the ctrl key previously).
+
 ## [0.2.2] - 2024-02-18
 
 ### Added

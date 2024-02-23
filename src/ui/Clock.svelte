@@ -35,26 +35,26 @@ function slices(segments: number, filled: number) {
   return ss
 }
 
-function handleIncrement (e: MouseEvent | KeyboardEvent) {
-  if (e.ctrlKey) {
+function handleIncrement(e: MouseEvent | KeyboardEvent) {
+  if (e.ctrlKey || e.metaKey) {
     segments += 1
   } else {
     filled += 1
   }
 }
 
-function handleDecrement (e: MouseEvent | KeyboardEvent) {
-  if (e.ctrlKey) {
+function handleDecrement(e: MouseEvent | KeyboardEvent) {
+  if (e.ctrlKey || e.metaKey) {
     segments -= 1
-      filled = Math.min(segments, filled)
+    filled = Math.min(segments, filled)
   } else {
     filled -= 1
   }
 }
 
-function handleClockKeyInteraction (e: KeyboardEvent) {
+function handleClockKeyInteraction(e: KeyboardEvent) {
   if (['Enter', ' ', 'ArrowUp', 'ArrowRight'].contains(e.key)) {
-    if (e.ctrlKey) {
+    if (e.ctrlKey || e.metaKey) {
       segments += 1
     } else {
       filled += 1
@@ -62,7 +62,7 @@ function handleClockKeyInteraction (e: KeyboardEvent) {
 
     e.preventDefault()
   } else if (['ArrowDown', 'ArrowLeft'].contains(e.key)) {
-    if (e.ctrlKey) {
+    if (e.ctrlKey || e.metaKey) {
       segments -= 1
       filled = Math.min(segments, filled)
     } else {
@@ -81,7 +81,7 @@ function handleClockKeyInteraction (e: KeyboardEvent) {
     role="button"
     tabindex="0"
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 {2*radius + 2*padding} {2*radius + 2*padding}"
+    viewBox="0 0 {2 * radius + 2 * padding} {2 * radius + 2 * padding}"
     on:click|preventDefault={handleIncrement}
     on:contextmenu|preventDefault={handleDecrement}
     on:keydown={handleClockKeyInteraction}>
@@ -91,13 +91,13 @@ function handleClockKeyInteraction (e: KeyboardEvent) {
           data-segment={i}
           data-filled={isFilled}
           d="
-        M {radius+padding} {radius+padding}
+        M {radius + padding} {radius + padding}
         L {x1} {y1}
         A {radius} {radius} 0 0 1 {x2} {y2}
         Z" />
       {/each}
     {/if}
-    <circle cx={radius+padding} cy={radius+padding} r={radius} data-filled={fillCircle} />
+    <circle cx={radius + padding} cy={radius + padding} r={radius} data-filled={fillCircle} />
   </svg>
   <div class="progress-clocks-clock__buttons">
     <button
@@ -117,15 +117,15 @@ function handleClockKeyInteraction (e: KeyboardEvent) {
     <button
       class="progress-clocks-clock__decrement-segments"
       title="Remove one segment"
-      on:click|preventDefault={() => segments -= 1}
-      on:keydown={ifClickEquivalent(() => segments -= 1)}>
+      on:click|preventDefault={() => (segments -= 1)}
+      on:keydown={ifClickEquivalent(() => (segments -= 1))}>
       <ArrowDownFromLine />
     </button>
     <button
       class="progress-clocks-clock__increment-segments"
       title="Add another segment"
-      on:click|preventDefault={() => segments += 1}
-      on:keydown={ifClickEquivalent(() => segments += 1)}>
+      on:click|preventDefault={() => (segments += 1)}
+      on:keydown={ifClickEquivalent(() => (segments += 1))}>
       <ArrowUpFromLine />
     </button>
   </div>

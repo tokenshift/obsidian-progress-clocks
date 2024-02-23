@@ -126,6 +126,20 @@ svg:is(:active, :focus, :focus-visible) {
   width: 4em;
 }
 
+.progress-clocks-panel {
+  /* position: relative; */
+}
+
+.progress-clocks-panel__version {
+  /* position: absolute;
+  bottom: 0;
+  right: 0; */
+  font-size: 75%;
+  font-weight: 100;
+  opacity: 0.8;
+  text-align: center;
+}
+
 .progress-clocks-section {
   border: 1px solid #999;
   border-radius: 0.25em;
