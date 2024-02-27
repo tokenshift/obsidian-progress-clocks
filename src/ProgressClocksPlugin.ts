@@ -31,7 +31,7 @@ export default class ProgressClocksPlugin extends Plugin {
       return this.app.workspace.getLeavesOfType(VIEW_TYPE)[0]
     }
 
-    await this.app.workspace.getRightLeaf(false).setViewState({
+    await this.app.workspace?.getRightLeaf(false)?.setViewState({
         type: VIEW_TYPE
     });
 

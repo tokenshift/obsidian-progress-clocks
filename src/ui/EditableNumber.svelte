@@ -7,7 +7,6 @@ export enum EditMode {
 
 <script lang="ts">
 import { createEventDispatcher, tick } from 'svelte'
-import { ifClickEquivalent } from './util'
 
 const dispatch = createEventDispatcher()
 
@@ -51,7 +50,6 @@ function onEditKeyDown(e: KeyboardEvent) {
 
   tick().then(() => focusTarget?.focus())
 }
-
 
 function onSpanKeyDown(e: KeyboardEvent) {
   if (['Enter', ' '].contains(e.key)) {

@@ -13,7 +13,7 @@ export let showTitle = false
 
 $: dispatch('stateUpdated', { state })
 
-function addSection(e: MouseEvent | KeyboardEvent) {
+function addSection() {
   state.sections.push({ name: `Section ${state.sections.length + 1}`, children: [] })
   state.sections = state.sections
 }

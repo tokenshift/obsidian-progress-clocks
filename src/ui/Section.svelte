@@ -28,7 +28,9 @@ let newClockMode = EditMode.Edit
 let newClockSegments = 4
 
 function addClock() {
-  if (newClockMode !== EditMode.Read) { return }
+  if (newClockMode !== EditMode.Read) {
+    return
+  }
 
   if (newClockSegments < 1) {
     tick().then(() => {
@@ -74,7 +76,7 @@ function addStopwatch() {
   children = children
 }
 
-function removeChild(e: MouseEvent | KeyboardEvent, i: number) {
+function removeChild(i: number) {
   children.splice(i, 1)
   children = children
 }
@@ -99,14 +101,12 @@ function removeChild(e: MouseEvent | KeyboardEvent, i: number) {
     {#each children as child, i}
       <div class="progress-clocks-section__child" data-child-type={child.type}>
         {#if child.type === 'clock'}
-          <Clock {...child}
-            bind:segments={child.segments}
-            bind:filled={child.filled} />
+          <Clock {...child} bind:segments={child.segments} bind:filled={child.filled} />
         {:else if child.type === 'counter'}
-          <Counter {...child}
-            bind:value={child.value} />
+          <Counter {...child} bind:value={child.value} />
         {:else if child.type === 'stopwatch'}
-          <StopWatch {...child}
+          <StopWatch
+            {...child}
             bind:startMillis={child.startMillis}
             bind:offsetMillis={child.offsetMillis}
             bind:showMillis={child.showMillis}
@@ -123,8 +123,8 @@ function removeChild(e: MouseEvent | KeyboardEvent, i: number) {
             role="button"
             tabindex="0"
             class="progress-clocks-button progress-clocks-section__remove-child"
-            on:click={(e) => removeChild(e, i)}
-            on:keydown={ifClickEquivalent((e) => removeChild(e, i))}>
+            on:click={() => removeChild(i)}
+            on:keydown={ifClickEquivalent(() => removeChild(i))}>
             <Trash2 />
           </div>
         </div>
@@ -133,29 +133,26 @@ function removeChild(e: MouseEvent | KeyboardEvent, i: number) {
   </div>
   <div class="progress-clocks-section__add-child">
     {#if addingClock}
-    <EditableNumber
-      bind:mode={newClockMode}
-      bind:value={newClockSegments}
-      on:confirmed={addClock}
-      on:cancelled={() => { addingClock = false; newClockMode = EditMode.Edit } } />
+      <EditableNumber
+        bind:mode={newClockMode}
+        bind:value={newClockSegments}
+        on:confirmed={addClock}
+        on:cancelled={() => {
+          addingClock = false
+          newClockMode = EditMode.Edit
+        }} />
     {:else}
-    <button
-      class="progress-clocks-section__add-clock"
-      title="Add new progress clock"
-      on:click={() => addingClock = true}>
-      <PieChart />
-    </button>
+      <button
+        class="progress-clocks-section__add-clock"
+        title="Add new progress clock"
+        on:click={() => (addingClock = true)}>
+        <PieChart />
+      </button>
     {/if}
-    <button
-      class="progress-clocks-section__add-counter"
-      title="Add new counter"
-      on:click={addCounter}>
+    <button class="progress-clocks-section__add-counter" title="Add new counter" on:click={addCounter}>
       <PlusSquare />
     </button>
-    <button
-      class="progress-clocks-section__add-stopwatch"
-      title="Add new stopwatch"
-      on:click={addStopwatch}>
+    <button class="progress-clocks-section__add-stopwatch" title="Add new stopwatch" on:click={addStopwatch}>
       <Timer />
     </button>
   </div>

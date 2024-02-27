@@ -6,11 +6,11 @@ import { ifClickEquivalent } from './util'
 
 export let value = 0
 
-export function increment(e: MouseEvent | KeyboardEvent) {
+export function increment() {
   value += 1
 }
 
-export function decrement(e: MouseEvent | KeyboardEvent) {
+export function decrement() {
   value -= 1
 }
 </script>
