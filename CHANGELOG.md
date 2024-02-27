@@ -6,6 +6,7 @@
 
 * The meta (⌘) or ctrl key can now be used to add/remove clock segments (rather)
   than just the ctrl key previously).
+* Fixing some overly broad CSS styling.
 
 ## [0.2.2] - 2024-02-18
 

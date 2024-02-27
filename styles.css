@@ -3,16 +3,16 @@
   --remove-red: rgb(164, 0, 0);
 }
 
-*[tabindex]:is(:active, :focus, :focus-visible) {
+.progress-clocks *[tabindex]:is(:active, :focus, :focus-visible) {
   border: 1px solid #999;
 }
 
-span[tabindex] {
+.progress-clocks span[tabindex] {
   border: 1px solid rgba(255, 255, 255, 0.0);
   border-radius: 0.25em;
 }
 
-svg:is(:active, :focus, :focus-visible) {
+.progress-clocks svg:is(:active, :focus, :focus-visible) {
   border: 1px solid #999;
 }
 
