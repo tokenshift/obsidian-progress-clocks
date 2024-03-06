@@ -15,7 +15,7 @@ export let lapTimes: number[] = []
 const TICK_INTERVAL_MS = 10
 
 let elapsedMs = 0
-let tickInterval: NodeJS.Timer | null = null
+let tickInterval: number | null = null
 
 function tick() {
   elapsedMs = new Date().getTime() - startMillis + offsetMillis
@@ -32,26 +32,26 @@ onMount(() => {
 
 onDestroy(() => {
   if (tickInterval) {
-    clearInterval(tickInterval)
+    window.clearInterval(tickInterval)
     tickInterval = null
   }
 })
 
 export function start() {
   if (tickInterval) {
-    clearInterval(tickInterval)
+    window.clearInterval(tickInterval)
     tickInterval = null
   }
 
   offsetMillis = elapsedMs
   startMillis = new Date().getTime()
-  tickInterval = setInterval(tick, TICK_INTERVAL_MS)
+  tickInterval = window.setInterval(tick, TICK_INTERVAL_MS)
   isRunning = true
 }
 
 export function stop() {
   if (tickInterval) {
-    clearInterval(tickInterval)
+    window.clearInterval(tickInterval)
     tickInterval = null
   }
 
@@ -76,7 +76,7 @@ export function lap() {
   dispatch('lap', { elapsedMs })
 }
 
-function formatTime (ms: number, showMillis: boolean = false) {
+function formatTime(ms: number, showMillis: boolean = false) {
   const seconds = showMillis ? (ms / 1000) % 60 : Math.floor(ms / 1000) % 60
   const secondsFormatted = Intl.NumberFormat(locale, {
     style: 'decimal',
@@ -112,7 +112,7 @@ function formatTime (ms: number, showMillis: boolean = false) {
     {formatTime(elapsedMs, showMillis)}
   </div>
   <div class="progress-clocks-stopwatch__buttons">
-    <button on:click={() => isRunning ? stop() : start()}>
+    <button on:click={() => (isRunning ? stop() : start())}>
       {#if isRunning}
         <Pause />
       {:else}
@@ -125,14 +125,12 @@ function formatTime (ms: number, showMillis: boolean = false) {
     <button on:click={lap}>
       <Timer />
     </button>
-    <button on:click={() => showMillis = !showMillis}>
-      /1000
-    </button>
+    <button on:click={() => (showMillis = !showMillis)}> /1000 </button>
   </div>
   {#if lapTimes.length > 0}
     <div class="progress-clocks-stopwatch__laps">
       {#each lapTimes as lapTime, i}
-        <div data-lap-time-ms={lapTime}>({i+1}) {formatTime(lapTime, showMillis)}</div>
+        <div data-lap-time-ms={lapTime}>({i + 1}) {formatTime(lapTime, showMillis)}</div>
       {/each}
     </div>
   {/if}

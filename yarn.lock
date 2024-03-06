@@ -13,9 +13,9 @@
   "version" "6.4.1"
 
 "@codemirror/view@^6.0.0":
-  "integrity" "sha512-sBfP4rniPBRQzNakwuQEqjEuiJDWJyF2kqLLqij4WXRoVwPPJfjx966Eq3F7+OPQxDtMt/Q9MWLoZLWjeveBlg=="
-  "resolved" "https://registry.npmjs.org/@codemirror/view/-/view-6.24.1.tgz"
-  "version" "6.24.1"
+  "integrity" "sha512-2LXLxsQnHDdfGzDvjzAwZh2ZviNJm7im6tGpa0IONIDnFd8RZ80D2SNi8PDi6YjKcMoMRK20v6OmKIdsrwsyoQ=="
+  "resolved" "https://registry.npmjs.org/@codemirror/view/-/view-6.25.1.tgz"
+  "version" "6.25.1"
   dependencies:
     "@codemirror/state" "^6.4.0"
     "style-mod" "^4.1.0"
@@ -83,9 +83,9 @@
   "version" "1.4.15"
 
 "@jridgewell/trace-mapping@^0.3.9":
-  "integrity" "sha512-9/4foRoUKp8s96tSkh8DlAAc5A0Ty8vLXld+l9gjKKY6ckwI8G15f0hskGmuLZu78ZlGa1vtsfOa+lnB4vG6Jg=="
-  "resolved" "https://registry.npmjs.org/@jridgewell/trace-mapping/-/trace-mapping-0.3.23.tgz"
-  "version" "0.3.23"
+  "integrity" "sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ=="
+  "resolved" "https://registry.npmjs.org/@jridgewell/trace-mapping/-/trace-mapping-0.3.25.tgz"
+  "version" "0.3.25"
   dependencies:
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
@@ -146,9 +146,9 @@
   "version" "7.0.15"
 
 "@types/node@^16.11.6", "@types/node@>= 14":
-  "integrity" "sha512-TmBqzDY/GeCEmLob/31SunOQnqYE3ZiiuEh1U9o3HqE1E2cqKZQA5RQg4krEguCY3StnkXyDmCny75qyFLx/rA=="
-  "resolved" "https://registry.npmjs.org/@types/node/-/node-16.18.83.tgz"
-  "version" "16.18.83"
+  "integrity" "sha512-+IzfhNirR/MDbXz6Om5eHV54D9mQlEMGag6AgEzlju0xH3M8baCXYwqQ6RKgGMpn9wSTx6Ltya/0y4Z8eSfdLw=="
+  "resolved" "https://registry.npmjs.org/@types/node/-/node-16.18.87.tgz"
+  "version" "16.18.87"
 
 "@types/pug@^2.0.4":
   "integrity" "sha512-Sk/uYFOBAB7mb74XcpizmH0KOR2Pv3D2Hmrh1Dmy5BmK3MpdSa5kqZcg6EKBdklU0bFXX9gCfzvpnyUehrPIuA=="
@@ -1240,9 +1240,9 @@
   "version" "3.1.1"
 
 "style-mod@^4.1.0":
-  "integrity" "sha512-nFSNaYG2I8jgB3GZ67q7WjnHlZBzyX5OKgx89k6JkPlaNoyMlRstdBvWgo95qRgUa6tUuvpt4zZM6KWCj+oU6Q=="
-  "resolved" "https://registry.npmjs.org/style-mod/-/style-mod-4.1.1.tgz"
-  "version" "4.1.1"
+  "integrity" "sha512-wnD1HyVqpJUI2+eKZ+eo1UwghftP6yuFheBqqe+bWCotBjC2K1YnteJILRMs3SM4V/0dLEW1SC27MWP5y+mwmw=="
+  "resolved" "https://registry.npmjs.org/style-mod/-/style-mod-4.1.2.tgz"
+  "version" "4.1.2"
 
 "supports-color@^7.1.0":
   "integrity" "sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw=="

@@ -29,7 +29,7 @@ function removeSection(i: number) {
     <header class="progress-clocks-title">
       <span class="progress-clocks-title__main-title">Progress Clocks</span>
       <a class="progress-clocks-title__subtitle" href="https://github.com/tokenshift/obsidian-progress-clocks">
-        https://github.com/tokenshift/obsidian-counters
+        https://github.com/tokenshift/obsidian-progress-clocks
       </a>
     </header>
   {/if}

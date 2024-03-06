@@ -1,6 +1,6 @@
 {
   "name": "obsidian-progress-clocks",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Progress clocks and other useful widgets for https://obsidian.md/.",
   "main": "main.js",
   "license": "MIT",

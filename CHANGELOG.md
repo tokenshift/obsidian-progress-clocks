@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.4] - 2024-03-06
+
+### Modified
+
+* Cleanup and README updates.
+
 ## [0.2.3] - 2024-02-27
 
 ### Modified
@@ -13,7 +19,7 @@
 ### Added
 
 * Added a command to open (and reveal) the Progress Clocks sidebar view.
-
+g
 ## [0.2.1] - 2024-02-18
 
 ### Modified

@@ -1,9 +1,9 @@
 {
 	"id": "progress-clocks",
 	"name": "Progress Clocks",
-	"version": "0.2.3",
+	"version": "0.2.4",
 	"minAppVersion": "0.12.0",
-	"description": "Progress clocks and other useful widgets for Obsidian.",
+	"description": "Progress clocks and other useful widgets for real-time status tracking.",
 	"author": "Nathan Clark",
 	"authorUrl": "https://github.com/tokenshift",
 	"isDesktopOnly": false
