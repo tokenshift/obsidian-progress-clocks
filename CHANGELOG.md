@@ -4,7 +4,7 @@
 
 ### Added
 
-* Added support for inline clocks & counters (only in edit mode right now).
+* Added support for inline clocks & counters.
 
 ## [0.2.4] - 2024-03-06
 

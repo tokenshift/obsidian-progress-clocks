@@ -40,6 +40,43 @@ function isSelectionWithin(selection: EditorSelection, rangeFrom: number, rangeT
   return false
 }
 
+export type ClockDetails = {
+  segments: number,
+  filled: number
+}
+
+export type CounterDetails = {
+  value: number
+}
+
+export function parseCode (input: string) {
+  input = input.trim()
+
+  let match = CLOCK_PATTERN.exec(input)
+  if (match) {
+    const segments = match[2] ? Number(match[2]) : match[1] ? Number(match[1]) : DEFAULT_CLOCK_SEGMENTS
+    const filled = match[2] ? Number(match[1]) : 0
+
+    return {
+      type: 'clock',
+      segments,
+      filled
+    }
+  }
+
+  match = COUNTER_PATTERN.exec(input)
+  if (match) {
+    const value = match[1] ? Number(match[1]) : 0
+
+    return {
+      type: 'counter',
+      value
+    }
+  }
+
+  return null
+}
+
 export class InlinePlugin {
   decorations: DecorationSet
 
@@ -79,28 +116,29 @@ export class InlinePlugin {
           }
 
           const src = view.state.doc.sliceString(node.from, node.to).trim()
-  
-          let match = CLOCK_PATTERN.exec(src)
-          if (match) {
-            const segments = match[2] ? Number(match[2]) : match[1] ? Number(match[1]) : DEFAULT_CLOCK_SEGMENTS
-            const filled = match[2] ? Number(match[1]) : 0
-  
-            widgets.push(Decoration.replace({
-              widget: new ClockWidget(segments, filled, node.from, node.to)
-            }).range(node.from, node.to))
+          const parsed = parseCode(src)
 
+          if (!parsed) {
             return
           }
-  
-          match = COUNTER_PATTERN.exec(src)
-          if (match) {
-            const count = match[1] ? Number(match[1]) : 0
 
-            widgets.push(Decoration.replace({
-              widget: new CounterWidget(count, node.from, node.to)
-            }).range(node.from, node.to))
+          switch (parsed.type) {
+            case 'clock':
+              const { segments, filled } = parsed
 
-            return
+              widgets.push(Decoration.replace({
+                widget: new ClockWidget(segments, filled, node.from, node.to)
+              }).range(node.from, node.to))
+
+              break
+            case 'counter':
+              const { value } = parsed
+
+              widgets.push(Decoration.replace({
+                widget: new CounterWidget(value, node.from, node.to)
+              }).range(node.from, node.to))
+              
+              break
           }
         }
       })

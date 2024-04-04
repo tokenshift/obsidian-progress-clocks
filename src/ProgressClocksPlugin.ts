@@ -3,13 +3,12 @@ import { Plugin } from 'obsidian'
 
 import ProgressClocksRenderChild from './ProgressClocksRenderChild'
 import ProgressClocksView, { VIEW_TYPE } from './ProgressClocksView'
-
-import { inlinePlugin } from './inline/InlinePlugin'
+import { inlinePlugin, parseCode } from './inline/InlinePlugin'
+import Clock from './ui/Clock.svelte'
+import Counter from './ui/Counter.svelte'
 
 export default class ProgressClocksPlugin extends Plugin {
   async onload () {
-    this.registerMarkdownCodeBlockProcessor('counters', (source, el, ctx) => this.handleCountersCodeBlock(source, el, ctx))
-
     this.registerView(
       VIEW_TYPE,
       (leaf: WorkspaceLeaf) => new ProgressClocksView(this, leaf))
@@ -28,6 +27,8 @@ export default class ProgressClocksPlugin extends Plugin {
     })
 
     this.registerEditorExtension(inlinePlugin(this))
+
+    this.registerMarkdownPostProcessor(this.handleMarkdownPostProcessor.bind(this))
   }
 
   async addView () {
@@ -42,18 +43,47 @@ export default class ProgressClocksPlugin extends Plugin {
     return this.app.workspace.getLeavesOfType(VIEW_TYPE)[0]
   }
 
-  async handleCountersCodeBlock (source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) {
-    try {
-      const child = new ProgressClocksRenderChild(this, el)
-      ctx.addChild(child)
-    } catch (err) {
-      const pre = document.createElement('pre')
-      pre.append(err.message)
-      if (err.stack) {
-        pre.append('\n')
-        pre.append(err.stack)
+  async handleMarkdownPostProcessor (el: HTMLElement, ctx: MarkdownPostProcessorContext) {
+    const nodes = el.querySelectorAll('code')
+
+    for (let i = 0; i < nodes.length; ++i) {
+      const node = nodes[i]
+      const parsed = parseCode(node.innerText)
+
+      if (!parsed) { continue }
+
+      const container = document.createElement('div')
+      container.addClass('progress-clocks-inline')
+
+      switch (parsed.type) {
+        case 'clock':
+          const { segments, filled } = parsed
+
+          new Clock({
+            target: container,
+            props: {
+              segments,
+              filled
+            }
+          })
+
+          node.replaceWith(container)
+
+          break
+        case 'counter':
+          const { value } = parsed
+
+          new Counter({
+            target: container,
+            props: {
+              value
+            }
+          })
+
+          node.replaceWith(container)
+
+          break
       }
-      el.append(pre)
     }
   }
 }

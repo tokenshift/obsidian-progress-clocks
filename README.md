@@ -46,3 +46,14 @@ Keeps track of time (in seconds by default; click the `/1000` button to toggle
 between seconds and milliseconds). The other buttons under the stopwatch can be
 used to pause/resume the stopwatch, reset it (to 0:00), or record a lap time
 (which will show up in a list under the stopwatch).
+
+## Inline Usage
+
+You can also use inline clocks and counters; use `` `clock 2 / 4` `` to get a
+4-segment clock with 2 segments filled in, or `` `counter 42` `` to get a
+counter initially set to 42.
+
+While inline clocks and counters will render in "view" mode, interacting with
+them *won't* alter the markdown source. In edit mode with live preview enabled,
+the clocks and counters will render, and interacting with them will update the
+underlying markdown.
