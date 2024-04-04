@@ -1,10 +1,15 @@
 <script lang="ts">
 import { MinusSquare, PlusSquare } from 'lucide-svelte'
+import { createEventDispatcher } from 'svelte'
 
 import EditableNumber from './EditableNumber.svelte'
 import { ifClickEquivalent } from './util'
 
 export let value = 0
+
+const dispatch = createEventDispatcher()
+
+$: dispatch('updated', { value })
 
 export function increment() {
   value += 1

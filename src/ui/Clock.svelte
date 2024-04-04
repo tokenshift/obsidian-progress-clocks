@@ -1,9 +1,14 @@
 <script type="ts">
+import { createEventDispatcher } from 'svelte'
 import { ArrowUpFromLine, ArrowDownFromLine, MinusSquare, PlusSquare } from 'lucide-svelte'
 import { ifClickEquivalent } from './util'
 
 export let segments: number = 4
 export let filled: number = 0
+
+const dispatch = createEventDispatcher()
+
+$: dispatch('updated', { segments, filled })
 
 $: fillCircle = segments <= 1 ? filled >= 1 : null
 $: segments = Math.max(1, segments)

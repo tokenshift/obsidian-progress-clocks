@@ -35,6 +35,10 @@
   width: 1em;
 }
 
+.progress-clocks-clock {
+  display: grid;
+}
+
 .progress-clocks-clock circle {
   fill: none;
   stroke: rgb(0, 0, 0);
@@ -124,6 +128,10 @@
   font-family: monospace;
   text-align: center;
   width: 4em;
+}
+
+.progress-clocks-inline {
+  display: inline-block;
 }
 
 .progress-clocks-panel__version {

@@ -4,6 +4,8 @@ import { Plugin } from 'obsidian'
 import ProgressClocksRenderChild from './ProgressClocksRenderChild'
 import ProgressClocksView, { VIEW_TYPE } from './ProgressClocksView'
 
+import { inlinePlugin } from './inline/InlinePlugin'
+
 export default class ProgressClocksPlugin extends Plugin {
   async onload () {
     this.registerMarkdownCodeBlockProcessor('counters', (source, el, ctx) => this.handleCountersCodeBlock(source, el, ctx))
@@ -24,6 +26,8 @@ export default class ProgressClocksPlugin extends Plugin {
         }
       }
     })
+
+    this.registerEditorExtension(inlinePlugin(this))
   }
 
   async addView () {
