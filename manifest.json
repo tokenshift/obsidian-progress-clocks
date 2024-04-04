@@ -1,7 +1,7 @@
 {
 	"id": "progress-clocks",
 	"name": "Progress Clocks",
-	"version": "0.2.4",
+	"version": "0.3.0",
 	"minAppVersion": "0.12.0",
 	"description": "Progress clocks and other useful widgets for real-time status tracking.",
 	"author": "Nathan Clark",
