@@ -1,4 +1,4 @@
-import { 
+import {
   Decoration,
   EditorView,
   ViewPlugin,
@@ -6,7 +6,8 @@ import {
 } from '@codemirror/view'
 
 import type {
-  DecorationSet
+  DecorationSet,
+  PluginValue
 } from '@codemirror/view'
 
 import {
@@ -29,6 +30,9 @@ const DEFAULT_CLOCK_SEGMENTS = 4
 
 const CLOCK_PATTERN = new RegExp(/clock(?:\s+(\d+)\s*(?:\/\s*(\d+))?)?/i)
 const COUNTER_PATTERN = new RegExp(/counter(?:\s+(\d+))?/i)
+const EXCLUDE_NODE_NAMES_PATTERN = /formatting/
+const USE_NODE_NAMES_PATTERN = /.*?_?inline-code_?.*/
+const TABLE_NODE_NAMES_PATTERN = /HyperMD-table-row/
 
 function isSelectionWithin(selection: EditorSelection, rangeFrom: number, rangeTo: number): boolean {
   for (const range of selection.ranges) {
@@ -49,7 +53,7 @@ export type CounterDetails = {
   value: number
 }
 
-export function parseCode (input: string) {
+export function parseCode(input: string) {
   input = input.trim()
 
   let match = CLOCK_PATTERN.exec(input)
@@ -58,7 +62,7 @@ export function parseCode (input: string) {
     const filled = match[2] ? Number(match[1]) : 0
 
     return {
-      type: 'clock',
+      type: 'clock' as const,
       segments,
       filled
     }
@@ -69,7 +73,7 @@ export function parseCode (input: string) {
     const value = match[1] ? Number(match[1]) : 0
 
     return {
-      type: 'counter',
+      type: 'counter' as const,
       value
     }
   }
@@ -77,14 +81,32 @@ export function parseCode (input: string) {
   return null
 }
 
-export class InlinePlugin {
+type ParseResult = NonNullable<ReturnType<typeof parseCode>>
+
+function placeWidget(parsed: ParseResult, from: number, to: number): Range<Decoration> {
+  switch (parsed.type) {
+    case 'clock':
+      const { segments, filled } = parsed
+      return Decoration.replace({
+        widget: new ClockWidget(segments, filled, from, to)
+      }).range(from, to)
+
+    case 'counter':
+      const { value } = parsed
+      return Decoration.replace({
+        widget: new CounterWidget(value, from, to)
+      }).range(from, to)
+  }
+}
+
+export class InlinePlugin implements PluginValue {
   decorations: DecorationSet
 
-  constructor (view: EditorView) {
+  constructor(view: EditorView) {
     this.decorations = Decoration.none
   }
 
-  update (update: ViewUpdate) {
+  update(update: ViewUpdate) {
     if (update.docChanged || update.viewportChanged || update.selectionSet) {
       if (update.state.field(editorLivePreviewField)) {
         this.decorations = this.inlineRender(update.view)
@@ -94,61 +116,49 @@ export class InlinePlugin {
     }
   }
 
-  inlineRender (view: EditorView) {
+  inlineRender(view: EditorView) {
     const widgets: Range<Decoration>[] = []
-  
+
     for (const { from, to } of view.visibleRanges) {
       syntaxTree(view.state).iterate({
         from,
         to,
         enter: ({ node }) => {
-          if (/formatting/.test(node.name)) {
+          if (EXCLUDE_NODE_NAMES_PATTERN.test(node.name)) {
             return
           }
-  
-          if (!/.*?_?inline-code_?.*/.test(node.name)) {
-            return
-          }
-  
-  
+
           if (isSelectionWithin(view.state.selection, node.from, node.to)) {
             return
           }
 
-          const src = view.state.doc.sliceString(node.from, node.to).trim()
-          const parsed = parseCode(src)
+          const widgetSites: [ParseResult, number, number][] = []
 
-          if (!parsed) {
-            return
+          const nodeSrc = view.state.doc.sliceString(node.from, node.to).trim()
+
+          if (USE_NODE_NAMES_PATTERN.test(node.name)) {
+            const parsed = parseCode(nodeSrc)
+            if (parsed) widgetSites.push([parsed, node.from, node.to])
+          } else if (TABLE_NODE_NAMES_PATTERN.test(node.name)) {
+            let from = nodeSrc.startsWith('|') ? 1 : 0
+            let to = from
+            for (const cell of nodeSrc.split('|')) {
+              to = from + cell.length
+              const parsed = parseCode(cell)
+              if (parsed) widgetSites.push([parsed, from, to])
+              from = to + 1
+            }
           }
 
-          switch (parsed.type) {
-            case 'clock':
-              const { segments, filled } = parsed
-
-              widgets.push(Decoration.replace({
-                widget: new ClockWidget(segments, filled, node.from, node.to)
-              }).range(node.from, node.to))
-
-              break
-            case 'counter':
-              const { value } = parsed
-
-              widgets.push(Decoration.replace({
-                widget: new CounterWidget(value, node.from, node.to)
-              }).range(node.from, node.to))
-              
-              break
-          }
+          widgets.push(...widgetSites.map((args) => placeWidget(...args)))
         }
       })
     }
-  
-    return Decoration.set(widgets)
+    return Decoration.set(widgets, true)
   }
 }
 
-export function inlinePlugin (plugin: ProgressClocksPlugin) {
+export function inlinePlugin(plugin: ProgressClocksPlugin) {
   return ViewPlugin.fromClass(InlinePlugin, {
     decorations: (view) => view.decorations
   })

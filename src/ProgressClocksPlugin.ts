@@ -1,14 +1,13 @@
 import type { MarkdownPostProcessorContext, WorkspaceLeaf } from 'obsidian'
 import { Plugin } from 'obsidian'
 
-import ProgressClocksRenderChild from './ProgressClocksRenderChild'
 import ProgressClocksView, { VIEW_TYPE } from './ProgressClocksView'
 import { inlinePlugin, parseCode } from './inline/InlinePlugin'
 import Clock from './ui/Clock.svelte'
 import Counter from './ui/Counter.svelte'
 
 export default class ProgressClocksPlugin extends Plugin {
-  async onload () {
+  async onload() {
     this.registerView(
       VIEW_TYPE,
       (leaf: WorkspaceLeaf) => new ProgressClocksView(this, leaf))
@@ -31,19 +30,19 @@ export default class ProgressClocksPlugin extends Plugin {
     this.registerMarkdownPostProcessor(this.handleMarkdownPostProcessor.bind(this))
   }
 
-  async addView () {
+  async addView() {
     if (this.app.workspace.getLeavesOfType(VIEW_TYPE).length > 0) {
       return this.app.workspace.getLeavesOfType(VIEW_TYPE)[0]
     }
 
     await this.app.workspace?.getRightLeaf(false)?.setViewState({
-        type: VIEW_TYPE
+      type: VIEW_TYPE
     });
 
     return this.app.workspace.getLeavesOfType(VIEW_TYPE)[0]
   }
 
-  async handleMarkdownPostProcessor (el: HTMLElement, ctx: MarkdownPostProcessorContext) {
+  async handleMarkdownPostProcessor(el: HTMLElement, ctx: MarkdownPostProcessorContext) {
     const nodes = el.querySelectorAll('code')
 
     for (let i = 0; i < nodes.length; ++i) {
@@ -58,7 +57,6 @@ export default class ProgressClocksPlugin extends Plugin {
       switch (parsed.type) {
         case 'clock':
           const { segments, filled } = parsed
-
           new Clock({
             target: container,
             props: {

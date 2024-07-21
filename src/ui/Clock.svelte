@@ -1,10 +1,12 @@
 <script type="ts">
-import { createEventDispatcher } from 'svelte'
+import { createEventDispatcher, onDestroy } from 'svelte'
 import { ArrowUpFromLine, ArrowDownFromLine, MinusSquare, PlusSquare } from 'lucide-svelte'
 import { ifClickEquivalent } from './util'
 
 export let segments: number = 4
 export let filled: number = 0
+
+onDestroy(console.log('destroyed from:', new Error().stack))
 
 const dispatch = createEventDispatcher()
 
