@@ -1,7 +1,6 @@
 import type { MarkdownPostProcessorContext, WorkspaceLeaf } from 'obsidian'
 import { Plugin } from 'obsidian'
 
-import ProgressClocksRenderChild from './ProgressClocksRenderChild'
 import ProgressClocksView, { VIEW_TYPE } from './ProgressClocksView'
 import { inlinePlugin, parseCode } from './inline/InlinePlugin'
 import Clock from './ui/Clock.svelte'
@@ -56,7 +55,7 @@ export default class ProgressClocksPlugin extends Plugin {
       container.addClass('progress-clocks-inline')
 
       switch (parsed.type) {
-        case 'clock':
+        case 'clock': {
           const { segments, filled } = parsed
 
           new Clock({
@@ -70,7 +69,8 @@ export default class ProgressClocksPlugin extends Plugin {
           node.replaceWith(container)
 
           break
-        case 'counter':
+        }
+        case 'counter': {
           const { value } = parsed
 
           new Counter({
@@ -83,6 +83,7 @@ export default class ProgressClocksPlugin extends Plugin {
           node.replaceWith(container)
 
           break
+        }
       }
     }
   }

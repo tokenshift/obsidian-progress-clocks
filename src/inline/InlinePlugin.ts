@@ -27,8 +27,8 @@ import CounterWidget from './CounterWidget'
 
 const DEFAULT_CLOCK_SEGMENTS = 4
 
-const CLOCK_PATTERN = new RegExp(/clock(?:\s+(\d+)\s*(?:\/\s*(\d+))?)?/i)
-const COUNTER_PATTERN = new RegExp(/counter(?:\s+(\d+))?/i)
+const CLOCK_PATTERN = new RegExp(/^clock(?:\s+(\d+)\s*(?:\/\s*(\d+))?)?/i)
+const COUNTER_PATTERN = new RegExp(/^counter(?:\s+(\d+))?/i)
 
 function isSelectionWithin(selection: EditorSelection, rangeFrom: number, rangeTo: number): boolean {
   for (const range of selection.ranges) {
@@ -123,7 +123,7 @@ export class InlinePlugin {
           }
 
           switch (parsed.type) {
-            case 'clock':
+            case 'clock': {
               const { segments, filled } = parsed
 
               widgets.push(Decoration.replace({
@@ -131,7 +131,8 @@ export class InlinePlugin {
               }).range(node.from, node.to))
 
               break
-            case 'counter':
+            }
+            case 'counter': {
               const { value } = parsed
 
               widgets.push(Decoration.replace({
@@ -139,6 +140,7 @@ export class InlinePlugin {
               }).range(node.from, node.to))
               
               break
+            }
           }
         }
       })

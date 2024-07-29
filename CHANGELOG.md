@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.1] - 2024-07-29
+
+### Fixed
+
+* Regexes looking for `clock` and `counter` in inline code were too aggressive (#8).
+
 ## [0.3.0] - 2024-04-04
 
 ### Added
