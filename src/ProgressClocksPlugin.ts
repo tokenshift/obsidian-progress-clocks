@@ -5,9 +5,25 @@ import ProgressClocksView, { VIEW_TYPE } from './ProgressClocksView'
 import { inlinePlugin, parseCode } from './inline/InlinePlugin'
 import Clock from './ui/Clock.svelte'
 import Counter from './ui/Counter.svelte'
+import { ProgressClocksSettingsTab } from './ProgressClocksSettingsTab'
+
+interface ProgressClocksPluginSettings {
+  showButtonsForInlineClocks: boolean;
+  allowClickInteractionForInlineClocks: boolean;
+}
+
+const DEFAULT_SETTINGS: Partial<ProgressClocksPluginSettings> = {
+  showButtonsForInlineClocks: true,
+  allowClickInteractionForInlineClocks: true
+};
 
 export default class ProgressClocksPlugin extends Plugin {
+  settings: ProgressClocksPluginSettings;
+
   async onload () {
+    await this.loadSettings();
+    this.addSettingTab(new ProgressClocksSettingsTab(this.app, this));
+
     this.registerView(
       VIEW_TYPE,
       (leaf: WorkspaceLeaf) => new ProgressClocksView(this, leaf))
@@ -28,6 +44,14 @@ export default class ProgressClocksPlugin extends Plugin {
     this.registerEditorExtension(inlinePlugin(this))
 
     this.registerMarkdownPostProcessor(this.handleMarkdownPostProcessor.bind(this))
+  }
+
+  async loadSettings() {
+    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+  }
+
+  async saveSettings() {
+    await this.saveData(this.settings);
   }
 
   async addView () {
@@ -62,7 +86,9 @@ export default class ProgressClocksPlugin extends Plugin {
             target: container,
             props: {
               segments,
-              filled
+              filled,
+              showButtonsForInlineClocks: this.settings.showButtonsForInlineClocks,
+              allowClickInteractionForInlineClocks: this.settings.allowClickInteractionForInlineClocks
             }
           })
 

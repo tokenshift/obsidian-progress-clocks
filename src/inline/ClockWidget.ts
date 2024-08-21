@@ -1,8 +1,8 @@
-import { 
+import {
   EditorView,
   WidgetType
 } from '@codemirror/view'
-  
+
 import Clock from '../ui/Clock.svelte'
 
 type UpdateEvent = {
@@ -17,19 +17,23 @@ export default class ClockWidget extends WidgetType {
     readonly segments: number = 4,
     readonly filled: number = 0,
     readonly nodeFrom: number,
-    readonly nodeTo: number) {
+    readonly nodeTo: number,
+    readonly showButtonsForInlineClocks: boolean,
+    readonly allowClickInteractionForInlineClocks: boolean) {
     super()
   }
 
   toDOM (view: EditorView): HTMLElement {
     const container = document.createElement('div')
     container.addClass('progress-clocks-inline')
-    
+
     const clock = new Clock({
       target: container,
       props: {
         segments: this.segments,
-        filled: this.filled
+        filled: this.filled,
+        showButtonsForInlineClocks: this.showButtonsForInlineClocks,
+        allowClickInteractionForInlineClocks: this.allowClickInteractionForInlineClocks
       }
     })
 
