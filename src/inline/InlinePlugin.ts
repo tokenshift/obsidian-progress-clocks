@@ -1,4 +1,4 @@
-import { 
+import {
   Decoration,
   EditorView,
   ViewPlugin,
@@ -79,6 +79,8 @@ export function parseCode (input: string) {
 
 export class InlinePlugin {
   decorations: DecorationSet
+  showButtonsForInlineClocks: boolean
+  allowClickInteractionForInlineClocks: boolean
 
   constructor (view: EditorView) {
     this.decorations = Decoration.none
@@ -96,7 +98,7 @@ export class InlinePlugin {
 
   inlineRender (view: EditorView) {
     const widgets: Range<Decoration>[] = []
-  
+
     for (const { from, to } of view.visibleRanges) {
       syntaxTree(view.state).iterate({
         from,
@@ -105,12 +107,12 @@ export class InlinePlugin {
           if (/formatting/.test(node.name)) {
             return
           }
-  
+
           if (!/.*?_?inline-code_?.*/.test(node.name)) {
             return
           }
-  
-  
+
+
           if (isSelectionWithin(view.state.selection, node.from, node.to)) {
             return
           }
@@ -127,7 +129,8 @@ export class InlinePlugin {
               const { segments, filled } = parsed
 
               widgets.push(Decoration.replace({
-                widget: new ClockWidget(segments, filled, node.from, node.to)
+                widget: new ClockWidget(segments, filled, node.from, node.to,
+                  this.showButtonsForInlineClocks, this.allowClickInteractionForInlineClocks)
               }).range(node.from, node.to))
 
               break
@@ -138,20 +141,23 @@ export class InlinePlugin {
               widgets.push(Decoration.replace({
                 widget: new CounterWidget(value, node.from, node.to)
               }).range(node.from, node.to))
-              
+
               break
             }
           }
         }
       })
     }
-  
+
     return Decoration.set(widgets)
   }
 }
 
 export function inlinePlugin (plugin: ProgressClocksPlugin) {
-  return ViewPlugin.fromClass(InlinePlugin, {
-    decorations: (view) => view.decorations
-  })
+  return ViewPlugin.define((view) => {
+    const viewPlugin = new InlinePlugin(view);
+    viewPlugin.showButtonsForInlineClocks = plugin.settings.showButtonsForInlineClocks;
+    viewPlugin.allowClickInteractionForInlineClocks = plugin.settings.allowClickInteractionForInlineClocks;
+    return viewPlugin;
+  }, {decorations: (view) => view.decorations});
 }

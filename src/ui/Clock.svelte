@@ -5,6 +5,8 @@ import { ifClickEquivalent } from './util'
 
 export let segments: number = 4
 export let filled: number = 0
+export let showButtonsForInlineClocks: boolean = true;
+export let allowClickInteractionForInlineClocks: boolean = true;
 
 const dispatch = createEventDispatcher()
 
@@ -41,6 +43,7 @@ function slices(segments: number, filled: number) {
 }
 
 function handleIncrement(e: MouseEvent | KeyboardEvent) {
+  if (!allowClickInteractionForInlineClocks) return;
   if (e.ctrlKey || e.metaKey) {
     segments += 1
   } else {
@@ -49,6 +52,7 @@ function handleIncrement(e: MouseEvent | KeyboardEvent) {
 }
 
 function handleDecrement(e: MouseEvent | KeyboardEvent) {
+  if (!allowClickInteractionForInlineClocks) return;
   if (e.ctrlKey || e.metaKey) {
     segments -= 1
     filled = Math.min(segments, filled)
@@ -58,6 +62,7 @@ function handleDecrement(e: MouseEvent | KeyboardEvent) {
 }
 
 function handleClockKeyInteraction(e: KeyboardEvent) {
+  if (!allowClickInteractionForInlineClocks) return;
   if (['Enter', ' ', 'ArrowUp', 'ArrowRight'].contains(e.key)) {
     if (e.ctrlKey || e.metaKey) {
       segments += 1
@@ -104,34 +109,36 @@ function handleClockKeyInteraction(e: KeyboardEvent) {
     {/if}
     <circle cx={radius + padding} cy={radius + padding} r={radius} data-filled={fillCircle} />
   </svg>
-  <div class="progress-clocks-clock__buttons">
-    <button
-      class="progress-clocks-clock__decrement"
-      title="Unfill one segment"
-      on:click|preventDefault={handleDecrement}
-      on:keydown={ifClickEquivalent(handleDecrement)}>
-      <MinusSquare />
-    </button>
-    <button
-      class="progress-clocks-clock__increment"
-      title="Fill one segment"
-      on:click|preventDefault={handleIncrement}
-      on:keydown={ifClickEquivalent(handleIncrement)}>
-      <PlusSquare />
-    </button>
-    <button
-      class="progress-clocks-clock__decrement-segments"
-      title="Remove one segment"
-      on:click|preventDefault={() => (segments -= 1)}
-      on:keydown={ifClickEquivalent(() => (segments -= 1))}>
-      <ArrowDownFromLine />
-    </button>
-    <button
-      class="progress-clocks-clock__increment-segments"
-      title="Add another segment"
-      on:click|preventDefault={() => (segments += 1)}
-      on:keydown={ifClickEquivalent(() => (segments += 1))}>
-      <ArrowUpFromLine />
-    </button>
-  </div>
+  {#if showButtonsForInlineClocks}
+    <div class="progress-clocks-clock__buttons">
+      <button
+        class="progress-clocks-clock__decrement"
+        title="Unfill one segment"
+        on:click|preventDefault={handleDecrement}
+        on:keydown={ifClickEquivalent(handleDecrement)}>
+        <MinusSquare />
+      </button>
+      <button
+        class="progress-clocks-clock__increment"
+        title="Fill one segment"
+        on:click|preventDefault={handleIncrement}
+        on:keydown={ifClickEquivalent(handleIncrement)}>
+        <PlusSquare />
+      </button>
+      <button
+        class="progress-clocks-clock__decrement-segments"
+        title="Remove one segment"
+        on:click|preventDefault={() => (segments -= 1)}
+        on:keydown={ifClickEquivalent(() => (segments -= 1))}>
+        <ArrowDownFromLine />
+      </button>
+      <button
+        class="progress-clocks-clock__increment-segments"
+        title="Add another segment"
+        on:click|preventDefault={() => (segments += 1)}
+        on:keydown={ifClickEquivalent(() => (segments += 1))}>
+        <ArrowUpFromLine />
+      </button>
+    </div>
+  {/if}
 </div>
